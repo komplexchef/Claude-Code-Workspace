@@ -1,34 +1,35 @@
 # Business-Informationen
 
-> Diese Datei liefert Hintergrund zur Organisation oder zum Business, in dem du arbeitest. Sie schafft die Grundlage, um deine Rolle (personal-info.md) und strategischen Prioritäten (strategy.md) zu verstehen.
+> Hintergrund zu Heikas Projekten und Tätigkeitsbereichen.
 
 ---
 
-## Wie das zusammenhängt
+## E-Mail-Übersicht
 
-- **Diese Datei** liefert den organisatorischen Kontext
-- **personal-info.md** definiert deine Rolle darin
-- **strategy.md** beschreibt die Ziele, auf die du hinarbeitest
-- **current-data.md** trackt den Fortschritt und informiert Entscheidungen
+| Postfach | E-Mail-Adresse | Zweck |
+|---|---|---|
+| 👤 Privat | here72@web.de | Private E-Mails, persönliche Termine |
+| 🏠 Ferienhaus | ferienhaus19@gmail.com | Gästeanfragen, Buchungen, Ferienhausverwaltung |
+| 🏢 Firma | komplexchef@gmail.com | Geschäftliche Kommunikation |
+| 🎓 TU Dresden | rene.hennig@tu-dresden.de | Berufliche E-Mails von der TU Dresden |
 
----
+## Kalender
 
-## Überblick zur Organisation
+- **Samsung Calendar** auf dem Handy → synchronisiert mit **Google Kalender**
+- Google-Konto: komplexchef@gmail.com
 
-[Beschreibe das Business, das Unternehmen oder die Organisation. Was macht es? Wen bedient es? Was ist seine Mission oder sein Zweck?]
+## Ferienhaus
 
-## Produkte / Dienstleistungen / Schwerpunkte
+- Eigene Vermietung eines Ferienhauses
+- Kommunikation läuft über ferienhaus19@gmail.com
+- Geplant: eigene Website für das Ferienhaus
 
-[Was sind die primären Angebote oder Schwerpunkte? Das hilft Claude zu verstehen, was du baust oder lieferst.]
+## Firma
 
--
--
--
+- Läuft über komplexchef@gmail.com
+- Details noch zu ergänzen
 
-## Wichtiger Kontext
+## TU Dresden
 
-[Alle wichtigen Hintergrundinformationen: Unternehmensphase, Teamgröße, Marktposition, kürzliche Änderungen oder Rahmenbedingungen, die Claude kennen sollte.]
-
----
-
-_Halte dies auf hohem Niveau — genug um Claude zu orientieren, kein umfassendes Unternehmens-Wiki._
+- Berufliche Tätigkeit an der Technischen Universität Dresden
+- E-Mail: rene.hennig@tu-dresden.de

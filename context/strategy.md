@@ -1,38 +1,34 @@
 # Strategie
 
-> Diese Datei beschreibt aktuelle strategische Prioritäten — jährlich, quartalsweise oder projektbasiert. Claude liest sie, um zu verstehen, worauf du hinarbeitest, damit er als Denkpartner agieren kann, der auf deine Ziele ausgerichtet ist.
+> Aktuelle Prioritäten und Ziele für diesen Workspace.
 
 ---
 
-## Wie das zusammenhängt
+## Aktuelle Projekte (2026)
 
-- **business-info.md** liefert den organisatorischen Kontext
-- **personal-info.md** definiert deine Rolle und Verantwortlichkeiten
-- **Diese Datei** beschreibt, wie Erfolg aktuell aussieht
-- **current-data.md** trackt den Fortschritt gegenüber diesen Prioritäten
+### 1. 🏠 Ferienhaus-Website
+- Eine eigene Website für das Ferienhaus erstellen
+- Informationen, Bilder, Buchungsinfos für Gäste
+- Ziel: Gäste können sich online informieren und anfragen
 
----
+### 2. 📧 E-Mail-Management (4 Postfächer)
+- **Ferienhaus-E-Mails:** Gästeanfragen schnell und professionell beantworten
+- **Firmen-E-Mails:** Geschäftliche Kommunikation verwalten
+- **TU Dresden:** Berufliche E-Mails organisieren und beantworten
+- **Privat:** Persönliche E-Mails + Termine im Überblick behalten
+- Ziel: Antwortvorlagen erstellen, E-Mails vorkonfigurieren, Zeit sparen
 
-## Aktueller Fokuszeitraum
-
-[Welchen Zeitraum deckt diese Strategie ab? Q1 2026? Ganzes Jahr? Eine spezifische Initiative?]
-
-## Strategische Prioritäten
-
-[Was sind die 2-5 Schlüsselprioritäten, auf die du dich fokussierst? Was versuchst du zu erreichen?]
-
-1.
-2.
-3.
+### 3. 📅 Termin- und Kalender-Management
+- Termine aus E-Mails erkennen und strukturieren
+- Überblick über alle Termine aus allen Lebensbereichen
 
 ## Wie Erfolg aussieht
 
-[Woran erkennst du, ob du erfolgreich bist? Welche Ergebnisse oder Meilensteine sind wichtig?]
-
-## Schlüsselentscheidungen oder offene Fragen
-
-[Strategische Spannungen, Abwägungen oder Entscheidungen, an denen du aktiv arbeitest?]
+- Ferienhaus-Website ist online und funktioniert
+- E-Mail-Antworten gehen schneller und professioneller raus
+- Kein wichtiger Termin wird vergessen
+- Claude kennt den Kontext und hilft proaktiv
 
 ---
 
-_Aktualisiere dies, wenn sich Prioritäten verschieben. Claude nutzt dies, um die Arbeit in die richtige Richtung zu lenken._
+_Aktualisiere dies, wenn neue Projekte dazukommen._

@@ -1,34 +1,30 @@
 # Persönliche Informationen
 
-> Diese Datei erfasst, wer du bist und wie dieser Workspace deine Arbeit unterstützt. Claude liest sie während `/prime`, um deine Rolle zu verstehen und die Unterstützung entsprechend anzupassen.
+> Diese Datei erfasst, wer du bist und wie dieser Workspace deine Arbeit unterstützt.
 
 ---
 
-## Wie das zusammenhängt
+## Profil
 
-- **business-info.md** setzt den organisatorischen Rahmen
-- **Diese Datei** definiert deinen Platz darin
-- **strategy.md** beschreibt, worauf du hinarbeitest
-- **current-data.md** liefert Metriken, die Entscheidungen informieren
-
----
-
-## Deine Rolle
-
-[Beschreibe deinen Titel, deine Funktion und deine primären Verantwortlichkeiten. Wofür bist du verantwortlich? Welche Entscheidungen triffst du?]
+- **Name:** Heike
+- **GitHub:** komplexchef
 
 ## Kernverantwortlichkeiten
 
-[Liste die Kernbereiche auf, die du managst oder zu denen du beiträgst. Diese helfen Claude zu verstehen, welche Arten von Aufgaben für deine Arbeit relevant sind.]
+- Verwaltung eines **Ferienhauses** (Buchungen, Gästekommunikation, Website)
+- Tätigkeit an der **TU Dresden** (Firmen-E-Mails, akademisches Umfeld)
+- **Privatperson** mit eigenem E-Mail- und Terminmanagement
 
--
--
--
+## E-Mail-Postfächer
+
+1. 🏠 **Ferienhaus** — Gästeanfragen, Buchungen, Kommunikation rund ums Ferienhaus
+2. 🏢 **Firma** — Geschäftliche E-Mails der eigenen Firma
+3. 🎓 **TU Dresden** — Berufliche E-Mails von der Technischen Universität Dresden
+4. 👤 **Privat** — Persönliche E-Mails und Termine
 
 ## Wie dieser Workspace hilft
 
-[Beschreibe, wofür du diesen Workspace nutzen möchtest. Welche wiederkehrenden Aufgaben, Analysen oder Entscheidungen könnte Claude unterstützen?]
-
----
-
-_Halte das prägnant — genug damit Claude deinen Kontext versteht, keine erschöpfende Biografie._
+- E-Mails aus allen Postfächern verwalten, vorkonfigurieren und beantworten
+- Termine aus E-Mails erkennen und organisieren
+- Ferienhaus-Website planen und umsetzen
+- Wiederkehrende Texte (Antwortvorlagen, Standardnachrichten) erstellen
