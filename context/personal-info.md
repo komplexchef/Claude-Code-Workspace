@@ -6,7 +6,7 @@
 
 ## Profil
 
-- **Name:** Heike
+- **Name:** René
 - **GitHub:** komplexchef
 
 ## Kernverantwortlichkeiten
