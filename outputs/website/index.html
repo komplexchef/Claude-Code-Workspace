@@ -5,52 +5,67 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cottage Sächsische Schweiz – Ferienhaus in Pirna</title>
   <meta name="description" content="Liebevoll eingerichtetes Ferienhaus in Pirna. Perfekter Ausgangspunkt für die Sächsische Schweiz und Dresden. 4,9 Sterne bei 182 Bewertungen." />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #f7f3ed;
+      --card: #ffffff;
+      --dark: #1e1a14;
+      --gold: #b8843a;
+      --gold-light: #d4a855;
+      --sage: #7a8c72;
+      --text: #2e2a22;
+      --muted: #7a6e5f;
+      --border: #ddd4c4;
+      --warm: #f0ebe2;
+      --highlight: #fdf6ec;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'Georgia', serif;
-      color: #333;
-      background: #fff;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
     }
 
     /* NAVIGATION */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
-      background: rgba(255,255,255,0.97);
+      background: rgba(30,26,20,0.97);
       z-index: 100;
       padding: 16px 40px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      border-bottom: 1px solid rgba(184,132,58,0.3);
     }
     nav .logo {
+      font-family: 'Cormorant Garamond', serif;
       font-size: 1.2rem;
-      font-weight: bold;
-      color: #2c6e49;
+      color: var(--gold-light);
       letter-spacing: 1px;
     }
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 32px;
-    }
+    nav ul { list-style: none; display: flex; gap: 32px; }
     nav ul a {
       text-decoration: none;
-      color: #444;
-      font-family: Arial, sans-serif;
-      font-size: 0.9rem;
-      letter-spacing: 0.5px;
+      color: rgba(255,255,255,0.7);
+      font-family: 'Jost', sans-serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
       transition: color 0.2s;
+      font-weight: 500;
     }
-    nav ul a:hover { color: #2c6e49; }
+    nav ul a:hover { color: var(--gold-light); }
 
     /* HERO */
     .hero {
       height: 100vh;
-      background: linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
+      background: linear-gradient(rgba(30,26,20,0.5), rgba(30,26,20,0.6)),
         url('fotos/C80A6597.JPG') center/cover no-repeat;
       display: flex;
       flex-direction: column;
@@ -59,238 +74,342 @@
       text-align: center;
       color: white;
       padding: 20px;
+      position: relative;
     }
-    .hero-badge {
-      background: #2c6e49;
-      color: white;
-      font-family: Arial, sans-serif;
-      font-size: 0.75rem;
-      letter-spacing: 2px;
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .hero-pre {
+      font-size: 11px;
+      letter-spacing: 5px;
       text-transform: uppercase;
-      padding: 6px 18px;
-      border-radius: 20px;
+      color: var(--gold-light);
       margin-bottom: 20px;
+      font-weight: 500;
     }
     .hero h1 {
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      font-weight: normal;
-      line-height: 1.2;
-      margin-bottom: 16px;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 400;
+      line-height: 1.15;
+      margin-bottom: 8px;
     }
-    .hero p {
-      font-size: 1.1rem;
-      margin-bottom: 32px;
-      opacity: 0.95;
-      font-family: Arial, sans-serif;
-      max-width: 500px;
-    }
-    .hero-stars {
-      font-size: 1rem;
-      margin-bottom: 32px;
-      font-family: Arial, sans-serif;
-    }
-    .hero-stars span { color: #f4c430; }
-    .btn {
-      display: inline-block;
-      background: #2c6e49;
-      color: white;
-      text-decoration: none;
-      padding: 14px 36px;
-      border-radius: 4px;
-      font-family: Arial, sans-serif;
-      font-size: 0.95rem;
-      letter-spacing: 1px;
-      transition: background 0.2s;
-    }
-    .btn:hover { background: #1e4d33; }
-    .btn-outline {
-      background: transparent;
-      border: 2px solid white;
-      margin-left: 12px;
-    }
-    .btn-outline:hover { background: rgba(255,255,255,0.15); }
-
-    /* SECTIONS */
-    section { padding: 80px 40px; max-width: 1100px; margin: 0 auto; }
-
-    .section-label {
-      font-family: Arial, sans-serif;
-      font-size: 0.75rem;
+    .hero h1 em { font-style: italic; color: var(--gold-light); }
+    .hero-rule { width: 48px; height: 1px; background: var(--gold); margin: 20px auto; }
+    .hero-sub {
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
       letter-spacing: 3px;
       text-transform: uppercase;
-      color: #2c6e49;
       margin-bottom: 12px;
     }
-    h2 {
-      font-size: clamp(1.6rem, 3vw, 2.4rem);
-      font-weight: normal;
-      color: #1a1a1a;
-      margin-bottom: 20px;
-      line-height: 1.3;
+    .hero-stars {
+      font-size: 13px;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 36px;
+      font-family: 'Jost', sans-serif;
+      letter-spacing: 1px;
     }
-    .lead {
-      font-size: 1.1rem;
-      line-height: 1.8;
-      color: #555;
-      max-width: 700px;
-      margin-bottom: 40px;
+    .hero-stars span { color: var(--gold-light); }
+    .btn {
+      display: inline-block;
+      background: var(--gold);
+      color: white;
+      text-decoration: none;
+      padding: 13px 36px;
+      font-family: 'Jost', sans-serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 500;
+      transition: background 0.2s;
+      border-radius: 1px;
     }
+    .btn:hover { background: var(--gold-light); }
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid rgba(255,255,255,0.5);
+      color: white;
+      margin-left: 12px;
+    }
+    .btn-outline:hover { border-color: var(--gold-light); color: var(--gold-light); background: transparent; }
 
     /* STATS BAR */
     .stats-bar {
-      background: #f8f5f0;
-      padding: 32px 40px;
+      background: var(--dark);
+      padding: 28px 40px;
       display: flex;
       justify-content: center;
       gap: 60px;
       flex-wrap: wrap;
       text-align: center;
+      border-bottom: 1px solid rgba(184,132,58,0.2);
     }
     .stat-item strong {
       display: block;
+      font-family: 'Cormorant Garamond', serif;
       font-size: 2rem;
-      color: #2c6e49;
-      font-family: Georgia, serif;
+      color: var(--gold-light);
+      font-weight: 400;
     }
     .stat-item span {
-      font-family: Arial, sans-serif;
-      font-size: 0.85rem;
-      color: #666;
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+    }
+
+    /* SECTIONS */
+    .section { padding: 80px 40px; max-width: 1100px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 10px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      font-weight: 400;
+      color: var(--dark);
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+    .lead {
+      font-size: 1rem;
+      line-height: 1.9;
+      color: var(--muted);
+      max-width: 680px;
+      margin-bottom: 40px;
+    }
+
+    /* ZIMMER KARTEN */
+    .rooms-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 40px;
+    }
+    .room-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 26px;
+      box-shadow: 0 1px 8px rgba(30,26,20,0.05);
+    }
+    .room-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      color: var(--dark);
+      margin-bottom: 10px;
+    }
+    .room-card h3 .icon { margin-right: 8px; }
+    .room-card p {
+      font-size: 13.5px;
+      color: var(--muted);
+      line-height: 1.75;
     }
 
     /* AUSSTATTUNG */
     .amenities-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 20px;
-      margin-top: 40px;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 12px;
+      margin-top: 32px;
     }
     .amenity {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 16px;
-      background: #f8f5f0;
-      border-radius: 8px;
-      font-family: Arial, sans-serif;
-      font-size: 0.9rem;
+      gap: 10px;
+      padding: 14px 16px;
+      background: var(--warm);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      font-size: 13px;
+      color: var(--text);
     }
-    .amenity .icon { font-size: 1.4rem; }
 
-    /* ZIMMER */
-    .rooms-grid {
+    /* GALERIE */
+    .gallery-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
-      margin-top: 40px;
+      gap: 10px;
+      margin-top: 32px;
     }
-    .room-card {
-      border: 1px solid #e8e0d5;
-      border-radius: 10px;
-      padding: 28px;
-      background: #fdfaf7;
+    .gallery-grid img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      border-radius: 2px;
+      display: block;
+      transition: opacity 0.2s;
     }
-    .room-card h3 {
-      font-size: 1.1rem;
-      margin-bottom: 10px;
-      color: #2c6e49;
+    .gallery-grid img:hover { opacity: 0.9; }
+    .gallery-grid .img-wide {
+      grid-column: span 2;
+      height: 320px;
     }
-    .room-card p {
-      font-family: Arial, sans-serif;
-      font-size: 0.9rem;
-      color: #666;
-      line-height: 1.7;
+
+    /* PREIS BANNER */
+    .price-banner {
+      background: var(--dark);
+      border-radius: 2px;
+      padding: 28px 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 48px;
+      position: relative;
+      overflow: hidden;
+    }
+    .price-banner::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .price-banner .price-info strong {
+      display: block;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      color: var(--gold-light);
+      font-weight: 400;
+    }
+    .price-banner .price-info span {
+      font-size: 11px;
+      letter-spacing: 1px;
+      color: rgba(255,255,255,0.4);
+      text-transform: uppercase;
+    }
+    .price-banner .discounts {
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+      line-height: 2;
     }
 
     /* UMGEBUNG */
     .umgebung-section {
-      background: #f0f5f1;
+      background: var(--dark);
       padding: 80px 40px;
+      position: relative;
     }
-    .umgebung-inner {
-      max-width: 1100px;
-      margin: 0 auto;
+    .umgebung-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
     }
+    .umgebung-inner { max-width: 1100px; margin: 0 auto; }
+    .umgebung-inner h2 { color: white; }
+    .umgebung-inner .section-label { color: var(--gold-light); }
+    .umgebung-inner .lead { color: rgba(255,255,255,0.5); }
     .destinations-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
+      gap: 16px;
       margin-top: 40px;
     }
     .destination {
-      background: white;
-      border-radius: 10px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(184,132,58,0.2);
+      border-radius: 2px;
       padding: 24px;
       text-align: center;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      transition: border-color 0.2s;
     }
-    .destination .dest-icon { font-size: 2rem; margin-bottom: 10px; }
-    .destination h4 { font-size: 1rem; margin-bottom: 6px; color: #1a1a1a; }
+    .destination:hover { border-color: var(--gold); }
+    .destination .dest-icon { font-size: 1.8rem; margin-bottom: 10px; }
+    .destination h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: white;
+      margin-bottom: 6px;
+    }
     .destination .dist {
-      font-family: Arial, sans-serif;
-      font-size: 0.85rem;
-      color: #2c6e49;
-      font-weight: bold;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      font-weight: 600;
     }
     .destination p {
-      font-family: Arial, sans-serif;
-      font-size: 0.8rem;
-      color: #888;
-      margin-top: 4px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+      margin-top: 6px;
     }
 
     /* BEWERTUNGEN */
     .reviews-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
+      gap: 20px;
       margin-top: 40px;
     }
     .review-card {
-      background: #fdfaf7;
-      border: 1px solid #e8e0d5;
-      border-radius: 10px;
-      padding: 24px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 26px;
+      box-shadow: 0 1px 8px rgba(30,26,20,0.05);
     }
-    .review-stars { color: #f4c430; margin-bottom: 10px; font-size: 0.9rem; }
+    .review-stars { color: var(--gold); margin-bottom: 12px; font-size: 0.85rem; letter-spacing: 2px; }
     .review-text {
       font-style: italic;
-      font-size: 0.95rem;
-      line-height: 1.7;
-      color: #444;
-      margin-bottom: 14px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: var(--text);
+      margin-bottom: 16px;
     }
+    .review-rule { width: 24px; height: 1px; background: var(--gold); margin-bottom: 12px; }
     .review-author {
-      font-family: Arial, sans-serif;
-      font-size: 0.8rem;
-      color: #888;
-      font-weight: bold;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 600;
     }
     .ratings-overview {
       display: flex;
       gap: 40px;
       flex-wrap: wrap;
-      margin-bottom: 40px;
-    }
-    .rating-item {
-      text-align: center;
+      margin-bottom: 48px;
+      padding: 28px 32px;
+      background: var(--warm);
+      border: 1px solid var(--border);
+      border-radius: 2px;
     }
     .rating-item strong {
       display: block;
-      font-size: 1.8rem;
-      color: #2c6e49;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      color: var(--gold);
+      font-weight: 400;
     }
     .rating-item span {
-      font-family: Arial, sans-serif;
-      font-size: 0.78rem;
-      color: #777;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
     }
 
     /* GASTGEBER */
     .host-section {
-      background: #1a1a1a;
-      color: white;
+      background: var(--warm);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
       padding: 80px 40px;
     }
     .host-inner {
@@ -301,146 +420,153 @@
       gap: 60px;
       align-items: center;
     }
-    .host-inner h2 { color: white; }
-    .host-inner .section-label { color: #a0c8a0; }
     .host-text {
-      font-size: 1rem;
+      font-size: 14px;
       line-height: 1.9;
-      color: #ccc;
-      font-family: Arial, sans-serif;
+      color: var(--muted);
     }
-    .host-highlight {
-      background: #2c6e49;
-      border-radius: 10px;
-      padding: 32px;
+    .host-stats {
+      background: var(--dark);
+      border-radius: 2px;
+      padding: 36px;
       text-align: center;
+      position: relative;
+      overflow: hidden;
     }
-    .host-highlight .big-num {
-      font-size: 3rem;
-      font-weight: bold;
-      color: white;
+    .host-stats::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
     }
-    .host-highlight p {
-      font-family: Arial, sans-serif;
-      color: #a0c8a0;
-      margin-top: 8px;
-      font-size: 0.9rem;
+    .host-stat-item { margin-bottom: 28px; }
+    .host-stat-item:last-child { margin-bottom: 0; }
+    .host-stat-item strong {
+      display: block;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem;
+      color: var(--gold-light);
+      font-weight: 400;
+      line-height: 1;
     }
+    .host-stat-item span {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+    }
+    .host-divider { width: 30px; height: 1px; background: rgba(184,132,58,0.3); margin: 20px auto; }
 
     /* HAUSREGELN */
     .rules-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
+      gap: 16px;
       margin-top: 40px;
     }
     .rule {
       display: flex;
       align-items: flex-start;
-      gap: 12px;
-      padding: 16px;
-      border-left: 3px solid #2c6e49;
+      gap: 14px;
+      padding: 20px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 2px;
     }
-    .rule .icon { font-size: 1.3rem; }
+    .rule .icon { font-size: 1.3rem; flex-shrink: 0; }
     .rule-content h4 {
-      font-size: 0.9rem;
-      margin-bottom: 4px;
-      color: #1a1a1a;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 6px;
     }
     .rule-content p {
-      font-family: Arial, sans-serif;
-      font-size: 0.82rem;
-      color: #777;
+      font-size: 13.5px;
+      color: var(--muted);
+      line-height: 1.6;
     }
 
     /* KONTAKT */
     .contact-section {
-      background: #2c6e49;
+      background: var(--dark);
       padding: 80px 40px;
       text-align: center;
-      color: white;
+      position: relative;
     }
-    .contact-section h2 { color: white; margin-bottom: 16px; }
+    .contact-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .contact-section h2 { color: white; }
+    .contact-section .section-label { color: var(--gold-light); }
     .contact-section p {
-      font-family: Arial, sans-serif;
-      font-size: 1rem;
-      margin-bottom: 32px;
-      opacity: 0.9;
-      max-width: 500px;
+      font-size: 13px;
+      margin-bottom: 36px;
+      color: rgba(255,255,255,0.5);
+      max-width: 480px;
       margin-left: auto;
       margin-right: auto;
+      letter-spacing: 0.5px;
     }
-    .contact-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-    .btn-white {
-      background: white;
-      color: #2c6e49;
-      padding: 14px 32px;
-      border-radius: 4px;
-      text-decoration: none;
-      font-family: Arial, sans-serif;
-      font-weight: bold;
-      font-size: 0.9rem;
-      transition: opacity 0.2s;
-    }
-    .btn-white:hover { opacity: 0.9; }
-    .btn-ghost {
-      border: 2px solid white;
+    .contact-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 36px; }
+    .btn-gold {
+      background: var(--gold);
       color: white;
-      padding: 14px 32px;
-      border-radius: 4px;
+      padding: 13px 32px;
       text-decoration: none;
-      font-family: Arial, sans-serif;
-      font-size: 0.9rem;
+      font-family: 'Jost', sans-serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 500;
+      border-radius: 1px;
       transition: background 0.2s;
     }
-    .btn-ghost:hover { background: rgba(255,255,255,0.15); }
+    .btn-gold:hover { background: var(--gold-light); }
+    .btn-ghost {
+      border: 1.5px solid rgba(255,255,255,0.25);
+      color: rgba(255,255,255,0.7);
+      padding: 13px 32px;
+      text-decoration: none;
+      font-family: 'Jost', sans-serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border-radius: 1px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold-light); }
+    .contact-address {
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+    }
 
     /* FOOTER */
     footer {
-      background: #111;
-      color: #888;
+      background: #111008;
+      color: rgba(255,255,255,0.2);
       text-align: center;
-      padding: 32px 20px;
-      font-family: Arial, sans-serif;
-      font-size: 0.82rem;
+      padding: 28px 20px;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
     }
-    footer a { color: #aaa; text-decoration: none; }
-
-    /* PREIS BANNER */
-    .price-banner {
-      background: #fff8f0;
-      border: 1px solid #e8d5b0;
-      border-radius: 10px;
-      padding: 24px 32px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 20px;
-      margin-top: 40px;
-    }
-    .price-banner .price-info strong {
-      display: block;
-      font-size: 1.8rem;
-      color: #2c6e49;
-    }
-    .price-banner .price-info span {
-      font-family: Arial, sans-serif;
-      font-size: 0.85rem;
-      color: #888;
-    }
-    .price-banner .discounts {
-      font-family: Arial, sans-serif;
-      font-size: 0.85rem;
-      color: #666;
-      line-height: 1.8;
-    }
+    footer a { color: rgba(255,255,255,0.3); text-decoration: none; }
 
     @media (max-width: 768px) {
       nav ul { display: none; }
-      .stats-bar { gap: 30px; }
+      .stats-bar { gap: 24px; }
       .host-inner { grid-template-columns: 1fr; }
-      section { padding: 60px 20px; }
+      .section { padding: 60px 20px; }
+      .gallery-grid .img-wide { grid-column: span 1; height: 240px; }
     }
   </style>
 </head>
@@ -451,21 +577,23 @@
   <div class="logo">Cottage Sächsische Schweiz</div>
   <ul>
     <li><a href="#unterkunft">Unterkunft</a></li>
+    <li><a href="#galerie">Fotos</a></li>
     <li><a href="#umgebung">Umgebung</a></li>
     <li><a href="#bewertungen">Bewertungen</a></li>
     <li><a href="#gastgeber">Gastgeber</a></li>
-    <li><a href="#kontakt">Buchen</a></li>
     <li><a href="gaesteinformation.html">Gästeinformation</a></li>
+    <li><a href="#kontakt">Buchen</a></li>
   </ul>
 </nav>
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-badge">Pirna · Sächsische Schweiz</div>
-  <h1>Dein Zuhause auf Zeit<br>in der Sächsischen Schweiz</h1>
-  <p>Ruhig, liebevoll eingerichtet und perfekt ausgestattet — für unvergessliche Auszeiten in einer der schönsten Regionen Deutschlands.</p>
+  <div class="hero-pre">Pirna · Sächsische Schweiz · Deutschland</div>
+  <h1>Cottage<br><em>Sächsische Schweiz</em></h1>
+  <div class="hero-rule"></div>
+  <div class="hero-sub">Am Ehrenhain 19 · 01796 Pirna</div>
   <div class="hero-stars">
-    <span>★★★★★</span> 4,9 · 182 Bewertungen &nbsp;|&nbsp; 9,7/10 · Booking.com
+    <span>★★★★★</span> &nbsp;4,9 · 182 Bewertungen &nbsp;·&nbsp; 9,7/10 Booking.com
   </div>
   <div>
     <a href="#kontakt" class="btn">Jetzt anfragen</a>
@@ -475,101 +603,66 @@
 
 <!-- STATS BAR -->
 <div class="stats-bar">
-  <div class="stat-item">
-    <strong>4,9★</strong>
-    <span>182 Airbnb-Bewertungen</span>
-  </div>
-  <div class="stat-item">
-    <strong>9,7</strong>
-    <span>Booking.com · außergewöhnlich</span>
-  </div>
-  <div class="stat-item">
-    <strong>55 m²</strong>
-    <span>Gesamte Unterkunft für dich</span>
-  </div>
-  <div class="stat-item">
-    <strong>4</strong>
-    <span>Gäste willkommen</span>
-  </div>
-  <div class="stat-item">
-    <strong>9 Jahre</strong>
-    <span>erfahrene Gastgeber</span>
-  </div>
+  <div class="stat-item"><strong>4,9 ★</strong><span>Airbnb · 182 Bewertungen</span></div>
+  <div class="stat-item"><strong>9,7</strong><span>Booking.com · außergewöhnlich</span></div>
+  <div class="stat-item"><strong>55 m²</strong><span>Gesamte Unterkunft</span></div>
+  <div class="stat-item"><strong>4</strong><span>Gäste willkommen</span></div>
+  <div class="stat-item"><strong>9 Jahre</strong><span>Erfahrene Gastgeber</span></div>
 </div>
 
 <!-- UNTERKUNFT -->
-<section id="unterkunft">
+<div class="section" id="unterkunft">
   <div class="section-label">Die Unterkunft</div>
   <h2>Willkommen im Cottage<br>Sächsische Schweiz</h2>
-  <p class="lead">
-    Unser liebevoll eingerichtetes Ferienhaus bietet dir alles, was du für eine perfekte Auszeit brauchst.
-    Genieße morgens einen frischen Kaffee aus dem Kaffeevollautomaten auf der Terrasse, bevor du
-    die Sächsische Schweiz erkundest oder entspannt in Pirna bummelst.
-  </p>
+  <p class="lead">Unser liebevoll eingerichtetes Ferienhaus bietet alles für eine perfekte Auszeit. Genieße morgens Kaffee aus dem Vollautomaten auf der Terrasse, bevor du die Sächsische Schweiz erkundest oder entspannt in Pirna bummelst.</p>
 
-  <!-- ZIMMER -->
   <div class="rooms-grid">
     <div class="room-card">
-      <h3>🛏️ Schlafzimmer</h3>
+      <h3><span class="icon">🛏️</span>Schlafzimmer</h3>
       <p>Gemütliches Doppelbett (1,80 × 2,00 m) mit hochwertiger Bettwäsche und angenehmer Fußbodenheizung für wohlige Nächte.</p>
     </div>
     <div class="room-card">
-      <h3>🛋️ Wohnzimmer</h3>
+      <h3><span class="icon">🛋️</span>Wohnzimmer</h3>
       <p>Gemütliches Wohnzimmer mit bequemer Schlafcouch (1,20 × 1,85 m) — ideal als zweite Schlafmöglichkeit für bis zu 4 Gäste.</p>
     </div>
     <div class="room-card">
-      <h3>🍳 Küche</h3>
+      <h3><span class="icon">🍳</span>Küche</h3>
       <p>Vollausgestattete Küche mit Kaffeevollautomat, Geschirrspüler, Backofen, Mikrowelle, Toaster und allem was du brauchst.</p>
     </div>
     <div class="room-card">
-      <h3>🚿 Badezimmer</h3>
-      <p>Sauberes, modernes Badezimmer mit Dusche, Haartrockner und Handtücher inklusive — alles für deinen Komfort.</p>
+      <h3><span class="icon">🚿</span>Badezimmer</h3>
+      <p>Modernes Badezimmer mit Dusche, Haartrockner, Hausschuhen und Handtücher inklusive — alles für deinen Komfort.</p>
     </div>
     <div class="room-card">
-      <h3>🌿 Terrasse</h3>
+      <h3><span class="icon">🌿</span>Terrasse</h3>
       <p>Eigene Terrasse mit Tisch, Stühlen, Grill und wunderschönem Gartenblick — perfekt für entspannte Abende im Freien.</p>
     </div>
     <div class="room-card">
-      <h3>🚗 Außenbereich</h3>
-      <p>Kostenloser Parkplatz direkt vor dem Grundstück. Beleuchteter Weg zum Eingang. Eigenständiger Check-in per Schlüsselbox.</p>
+      <h3><span class="icon">🌊</span>Garten & Teich</h3>
+      <p>Traumhafter Garten mit Naturteich, Seerosen und unserem berühmten rosa Flamingo — einzigartig und zum Träumen schön.</p>
     </div>
   </div>
 
-  <!-- AUSSTATTUNG -->
-  <h2 style="margin-top:60px;">Das bietet dir unsere Unterkunft</h2>
+  <h2 style="margin-top:60px;">Ausstattung</h2>
   <div class="amenities-grid">
-    <div class="amenity"><span class="icon">☕</span> Kaffeevollautomat</div>
-    <div class="amenity"><span class="icon">📶</span> Kostenloses WLAN</div>
-    <div class="amenity"><span class="icon">🚗</span> Kostenloser Parkplatz</div>
-    <div class="amenity"><span class="icon">📺</span> Flachbild-TV</div>
-    <div class="amenity"><span class="icon">🍽️</span> Geschirrspüler</div>
-    <div class="amenity"><span class="icon">👕</span> Waschmaschine</div>
-    <div class="amenity"><span class="icon">🔥</span> Fußbodenheizung</div>
-    <div class="amenity"><span class="icon">🌿</span> Terrasse & Garten</div>
-    <div class="amenity"><span class="icon">🛏️</span> Bettwäsche inklusive</div>
-    <div class="amenity"><span class="icon">🧺</span> Handtücher inklusive</div>
-    <div class="amenity"><span class="icon">🍖</span> Grill</div>
-    <div class="amenity"><span class="icon">👶</span> Babybett kostenlos</div>
-  </div>
-
-  <!-- PREIS -->
-  <!-- FOTOGALERIE -->
-  <h2 style="margin-top:60px;">Eindrücke</h2>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-top:24px;">
-    <img src="fotos/C80A6597.JPG" alt="Garten mit Teich" style="width:100%;height:240px;object-fit:cover;border-radius:8px;">
-    <img src="fotos/C80A6605.JPG" alt="Terrasse" style="width:100%;height:240px;object-fit:cover;border-radius:8px;">
-    <img src="fotos/C80A6600.JPG" alt="Garten" style="width:100%;height:240px;object-fit:cover;border-radius:8px;">
-    <img src="fotos/C80A6630.JPG" alt="Wohnzimmer" style="width:100%;height:240px;object-fit:cover;border-radius:8px;">
-    <img src="fotos/C80A6692.JPG" alt="Schlafzimmer" style="width:100%;height:240px;object-fit:cover;border-radius:8px;">
-    <img src="fotos/C80A6716.JPG" alt="Küche" style="width:100%;height:240px;object-fit:cover;border-radius:8px;">
-    <img src="fotos/C80A6709.JPG" alt="Badezimmer" style="width:100%;height:240px;object-fit:cover;border-radius:8px;">
-    <img src="fotos/C80A6611.JPG" alt="Garten Detail" style="width:100%;height:240px;object-fit:cover;border-radius:8px;">
+    <div class="amenity">☕ Kaffeevollautomat</div>
+    <div class="amenity">📶 Kostenloses WLAN</div>
+    <div class="amenity">🚗 Kostenloser Parkplatz</div>
+    <div class="amenity">📺 Flachbild-TV</div>
+    <div class="amenity">🍽️ Geschirrspüler</div>
+    <div class="amenity">👕 Waschmaschine</div>
+    <div class="amenity">🔥 Fußbodenheizung</div>
+    <div class="amenity">🌿 Terrasse & Garten</div>
+    <div class="amenity">🛏️ Bettwäsche inklusive</div>
+    <div class="amenity">🧺 Handtücher inklusive</div>
+    <div class="amenity">🍖 Grill</div>
+    <div class="amenity">👶 Babybett kostenlos</div>
   </div>
 
   <div class="price-banner">
     <div class="price-info">
       <strong>92 € – 120 €</strong>
-      <span>pro Nacht · Gesamtes Ferienhaus für bis zu 4 Gäste</span>
+      <span>Pro Nacht · Gesamtes Ferienhaus · Bis zu 4 Gäste</span>
     </div>
     <div class="discounts">
       🏷️ 10 % Rabatt bei Wochenaufenthalten<br>
@@ -578,17 +671,30 @@
     </div>
     <a href="#kontakt" class="btn">Verfügbarkeit prüfen</a>
   </div>
-</section>
+</div>
+
+<!-- GALERIE -->
+<div class="section" id="galerie">
+  <div class="section-label">Eindrücke</div>
+  <h2>Bilder sprechen<br>mehr als Worte</h2>
+  <div class="gallery-grid">
+    <img src="fotos/C80A6597.JPG" alt="Garten mit Teich und Flamingo" class="img-wide">
+    <img src="fotos/C80A6605.JPG" alt="Terrasse mit Rattanmöbeln">
+    <img src="fotos/C80A6630.JPG" alt="Wohnzimmer">
+    <img src="fotos/C80A6692.JPG" alt="Schlafzimmer" class="img-wide">
+    <img src="fotos/C80A6716.JPG" alt="Küche">
+    <img src="fotos/C80A6709.JPG" alt="Badezimmer">
+    <img src="fotos/C80A6600.JPG" alt="Garten mit Holzskulptur">
+    <img src="fotos/C80A6611.JPG" alt="Garten">
+  </div>
+</div>
 
 <!-- UMGEBUNG -->
 <div class="umgebung-section" id="umgebung">
   <div class="umgebung-inner">
     <div class="section-label">Die Region</div>
-    <h2>Pirna — Tor zur Sächsischen Schweiz</h2>
-    <p class="lead">
-      Unser Cottage liegt am ruhigen Ortsrand von Pirna — und ist gleichzeitig der perfekte Ausgangspunkt
-      für unvergessliche Ausflüge. Bizarre Felsen, tiefe Wälder, die Elbe und die Weltstadt Dresden warten auf dich.
-    </p>
+    <h2>Pirna — Tor zur<br><em style="font-style:italic;color:var(--gold-light)">Sächsischen Schweiz</em></h2>
+    <p class="lead">Ruhig am Ortsrand von Pirna gelegen — und der perfekte Ausgangspunkt für unvergessliche Ausflüge in eine der schönsten Regionen Deutschlands.</p>
     <div class="destinations-grid">
       <div class="destination">
         <div class="dest-icon">🌉</div>
@@ -600,13 +706,13 @@
         <div class="dest-icon">🏰</div>
         <h4>Festung Königstein</h4>
         <div class="dist">15 km</div>
-        <p>Historische Festung hoch über der Elbe</p>
+        <p>Historisch hoch über der Elbe</p>
       </div>
       <div class="destination">
         <div class="dest-icon">🌲</div>
         <h4>Nationalpark</h4>
         <div class="dist">13 km</div>
-        <p>Sächsische Schweiz — einzigartiges Felsenparadies</p>
+        <p>Sächsische Schweiz</p>
       </div>
       <div class="destination">
         <div class="dest-icon">🏛️</div>
@@ -618,7 +724,7 @@
         <div class="dest-icon">🌸</div>
         <h4>Schloss Pillnitz</h4>
         <div class="dist">8 km</div>
-        <p>Schloss & Park direkt an der Elbe</p>
+        <p>Schloss & Park an der Elbe</p>
       </div>
       <div class="destination">
         <div class="dest-icon">🌺</div>
@@ -636,59 +742,63 @@
         <div class="dest-icon">✈️</div>
         <h4>Flughafen Dresden</h4>
         <div class="dist">26 km</div>
-        <p>Direkte Anbindung A17 Dresden–Prag</p>
+        <p>A17 Dresden–Prag direkt</p>
       </div>
     </div>
   </div>
 </div>
 
 <!-- BEWERTUNGEN -->
-<section id="bewertungen">
-  <div class="section-label">Was Gäste sagen</div>
-  <h2>Über 200 begeisterte Bewertungen</h2>
-
+<div class="section" id="bewertungen">
+  <div class="section-label">Gästestimmen</div>
+  <h2>Über 200 begeisterte<br>Bewertungen</h2>
   <div class="ratings-overview">
     <div class="rating-item"><strong>5,0</strong><span>Sauberkeit</span></div>
     <div class="rating-item"><strong>5,0</strong><span>Check-in</span></div>
     <div class="rating-item"><strong>5,0</strong><span>Kommunikation</span></div>
     <div class="rating-item"><strong>4,9</strong><span>Preis-Leistung</span></div>
-    <div class="rating-item"><strong>9,9</strong><span>Personal (Booking)</span></div>
-    <div class="rating-item"><strong>9,9</strong><span>Sauberkeit (Booking)</span></div>
+    <div class="rating-item"><strong>9,9</strong><span>Personal Booking</span></div>
+    <div class="rating-item"><strong>9,9</strong><span>Sauberkeit Booking</span></div>
   </div>
-
   <div class="reviews-grid">
     <div class="review-card">
       <div class="review-stars">★★★★★</div>
       <p class="review-text">„Diese Wohnung ist bombastisch gut!!! Ich kann gar nicht finden, was nicht gut war. Ausstattung kann nicht besser sein, Lage ist fantastisch, und beide Besitzer sind nett und freundlich."</p>
+      <div class="review-rule"></div>
       <div class="review-author">Tatjana · Deutschland</div>
     </div>
     <div class="review-card">
       <div class="review-stars">★★★★★</div>
       <p class="review-text">„Mit viel Liebe zum Detail wurde hier ein komfortables Feriendomizil in Pirna zur Verfügung gestellt. Die Ausstattung hat keine Wünsche offen gelassen."</p>
+      <div class="review-rule"></div>
       <div class="review-author">Marc · Deutschland</div>
     </div>
     <div class="review-card">
       <div class="review-stars">★★★★★</div>
       <p class="review-text">„Ein wunderschönes Ferienhaus mit allem, was man für eine entspannte Auszeit braucht. Sehr sauber, liebevoll eingerichtet und in ruhiger Lage. Wir haben uns von Anfang an wohlgefühlt!"</p>
+      <div class="review-rule"></div>
       <div class="review-author">Michaela · Deutschland</div>
     </div>
     <div class="review-card">
       <div class="review-stars">★★★★★</div>
-      <p class="review-text">„Von der Familie willkommen und doch seinen ganz privaten Bereich. Ländlich ruhig, in 10 min. zu Fuß in der Stadt, einfach topp auch mit Hund."</p>
-      <div class="review-author">Grit · Deutschland</div>
-    </div>
-    <div class="review-card">
-      <div class="review-stars">★★★★★</div>
       <p class="review-text">„Sehr liebevoll eingerichtetes Ferienhaus mit allem was man benötigt, fast wie daheim. Ruhig gelegen aber nicht zu weit vom Schuss. Nette und aufgeschlossene Gastgeber."</p>
+      <div class="review-rule"></div>
       <div class="review-author">Heidi · Deutschland</div>
     </div>
     <div class="review-card">
       <div class="review-stars">★★★★★</div>
       <p class="review-text">„Die Ausstattung war einfach perfekt, es war alles da. So haben wir noch nicht erlebt."</p>
+      <div class="review-rule"></div>
       <div class="review-author">Reiner · Deutschland</div>
     </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">„Heike und René waren sehr freundlich und hilfsbereit, die Unterkunft war sehr schön und liebevoll eingerichtet. Wir sehen uns ganz bestimmt nocheinmal!"</p>
+      <div class="review-rule"></div>
+      <div class="review-author">Tamara · September 2025</div>
+    </div>
   </div>
-</section>
+</div>
 
 <!-- GASTGEBER -->
 <div class="host-section" id="gastgeber">
@@ -697,31 +807,34 @@
       <div class="section-label">Eure Gastgeber</div>
       <h2>Hallo, wir sind<br>Heike & René</h2>
       <p class="host-text">
-        Seit über 9 Jahren leben wir unsere Leidenschaft als Gastgeber in der wunderschönen Sächsischen Schweiz.
-        Zwei neugierige, lebensfrohe Menschen mit einem Herz für Menschen und Reisen.
+        Seit über 9 Jahren leben wir unsere Leidenschaft als Gastgeber in der wunderschönen Sächsischen Schweiz. Zwei neugierige, lebensfrohe Menschen mit einem Herz für Menschen und Reisen.
         <br><br>
-        Unsere eigenen Reiseziele liegen oft in den südländischen Regionen — das Gefühl von Wärme,
-        Leichtigkeit und Gastfreundschaft möchten wir an unsere Gäste weitergeben.
+        Unsere eigenen Reiseziele liegen oft in den südländischen Regionen — das Gefühl von Wärme, Leichtigkeit und Gastfreundschaft möchten wir an unsere Gäste weitergeben. Das spiegelt sich in jedem Detail unseres Cottages wider.
         <br><br>
-        Wir sind schnell erreichbar, herzlich und unkompliziert. Ob Wandertipps, Restaurantempfehlungen
-        oder Ausflugsziele — wir helfen gerne! 🌻
+        Wir sind schnell erreichbar, herzlich und unkompliziert. Ob Wandertipps, Restaurantempfehlungen oder Ausflugsziele — wir helfen gerne! 🌻
       </p>
     </div>
-    <div>
-      <div class="host-highlight">
-        <div class="big-num">182</div>
-        <p>Bewertungen auf Airbnb</p>
-        <div class="big-num" style="margin-top:24px;">4,9★</div>
-        <p>Durchschnittliche Bewertung</p>
-        <div class="big-num" style="margin-top:24px;">9 Jahre</div>
-        <p>erfahrene Gastgeber</p>
+    <div class="host-stats">
+      <div class="host-stat-item">
+        <strong>182</strong>
+        <span>Bewertungen auf Airbnb</span>
+      </div>
+      <div class="host-divider"></div>
+      <div class="host-stat-item">
+        <strong>4,9 ★</strong>
+        <span>Durchschnittliche Bewertung</span>
+      </div>
+      <div class="host-divider"></div>
+      <div class="host-stat-item">
+        <strong>9 Jahre</strong>
+        <span>Erfahrene Gastgeber</span>
       </div>
     </div>
   </div>
 </div>
 
 <!-- HAUSREGELN -->
-<section>
+<div class="section">
   <div class="section-label">Wichtige Infos</div>
   <h2>Hausregeln & Check-in</h2>
   <div class="rules-grid">
@@ -743,7 +856,7 @@
       <span class="icon">👥</span>
       <div class="rule-content">
         <h4>Gäste</h4>
-        <p>Höchstens 4 Personen<br>Kinder jeden Alters willkommen</p>
+        <p>Bis zu 4 Personen<br>Kinder jeden Alters willkommen</p>
       </div>
     </div>
     <div class="rule">
@@ -768,25 +881,25 @@
       </div>
     </div>
   </div>
-</section>
+</div>
 
 <!-- KONTAKT -->
 <div class="contact-section" id="kontakt">
+  <div class="section-label">Kontakt & Buchung</div>
   <h2>Bereit für deinen Urlaub?</h2>
   <p>Schreib uns direkt — wir antworten schnell und helfen dir bei der Planung deines perfekten Aufenthalts in der Sächsischen Schweiz.</p>
   <div class="contact-buttons">
-    <a href="mailto:ferienhaus19@gmail.com" class="btn-white">✉️ E-Mail schreiben</a>
-    <a href="https://www.airbnb.de/rooms/18939399" target="_blank" class="btn-ghost">Airbnb buchen</a>
+    <a href="mailto:ferienhaus19@gmail.com" class="btn-gold">✉️ E-Mail schreiben</a>
+    <a href="https://www.airbnb.de/rooms/18939399" target="_blank" class="btn-ghost">Airbnb</a>
     <a href="https://www.booking.com/hotel/de/cottage-in-sachsische-schweiz.html" target="_blank" class="btn-ghost">Booking.com</a>
     <a href="gaesteinformation.html" class="btn-ghost">📋 Gästeinformation</a>
   </div>
-  <p style="margin-top:32px; font-size:0.85rem; opacity:0.7;">Am Ehrenhain 19 · 01796 Pirna · ferienhaus19@gmail.com</p>
+  <div class="contact-address">Am Ehrenhain 19 · 01796 Pirna · ferienhaus19@gmail.com</div>
 </div>
 
 <!-- FOOTER -->
 <footer>
-  <p>© 2026 Cottage Sächsische Schweiz · Heike & René Hennig · Am Ehrenhain 19, 01796 Pirna</p>
-  <p style="margin-top:8px;"><a href="mailto:ferienhaus19@gmail.com">ferienhaus19@gmail.com</a></p>
+  <p>© 2026 Cottage Sächsische Schweiz · Heike & René Hennig · <a href="mailto:ferienhaus19@gmail.com">ferienhaus19@gmail.com</a></p>
 </footer>
 
 </body>
