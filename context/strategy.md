@@ -24,10 +24,14 @@
 
 ## Wie Erfolg aussieht
 
-- Ferienhaus-Website ist online und funktioniert
+- Ferienhaus ist nach August gut gebucht
+- Ferienhaus-Website ist online und professionell
+- Airbnb & Booking.com Profile sind optimiert
+- Instagram-Präsenz für das Ferienhaus ist aufgebaut
 - E-Mail-Antworten gehen schneller und professioneller raus
+- Gefahrgut & Gewässerschutz ist logisch strukturiert und gut dokumentiert
+- René kann Menschen schneller und besser beraten
 - Kein wichtiger Termin wird vergessen
-- Claude kennt den Kontext und hilft proaktiv
 
 ---
 

@@ -20,9 +20,14 @@
 
 ## Ferienhaus
 
-- Eigene Vermietung eines Ferienhauses
+- **Adresse:** Ehrenheim 19, Pirna (Sächsische Schweiz)
 - Kommunikation läuft über ferienhaus19@gmail.com
-- Geplant: eigene Website für das Ferienhaus
+- Aktuell gut gebucht bis Ende August, danach keine Buchungen
+- **Ziele:**
+  - Eigene Website bauen
+  - Airbnb & Booking.com Profil überarbeiten
+  - Instagram-Werbung schalten
+  - Buchungen nach August füllen
 
 ## Firma
 
