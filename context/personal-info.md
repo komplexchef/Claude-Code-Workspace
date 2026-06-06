@@ -34,6 +34,12 @@
 3. 🎓 **TU Dresden** — Berufliche E-Mails von der Technischen Universität Dresden
 4. 👤 **Privat** — Persönliche E-Mails und Termine
 
+## Arbeitsweise & Kommunikation
+
+- **Sprache:** Immer Deutsch — auch bei englischen Quellen. René sagt Bescheid wenn übersetzt werden soll.
+- **Arbeitsstil:** Fließend und flexibel, aber Strukturen und Listen sind willkommen wenn es hilft
+- **Dokumente:** Dropbox-Zugang wird noch eingerichtet — dort liegen Unterlagen zu Gefahrgut/Gewässerschutz und Ferienhaus
+
 ## Denkweise & Werte
 
 - Praktisch und lösungsorientiert — 30 Jahre Praxiserfahrung
