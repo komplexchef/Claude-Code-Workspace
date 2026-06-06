@@ -4,7 +4,8 @@
       "PowerShell(gh --version)",
       "PowerShell(gh auth status)",
       "WebFetch(domain:www.airbnb.de)",
-      "WebFetch(domain:www.booking.com)"
+      "WebFetch(domain:www.booking.com)",
+      "Bash(cp \"/c/Users/Heike/Downloads/Gaesteinformation_Ferienhaus_12.html\" \"/c/Users/Heike/Jarvis/claude-workspace-vorlage/outputs/website/gaesteinformation.html\")"
     ]
   }
 }
