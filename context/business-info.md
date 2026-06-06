@@ -45,11 +45,15 @@
 - 20 km Dresden (Frauenkirche, Brühlsche Terrasse)
 - 26 km Flughafen Dresden
 
-### Bewertungen (Booking.com)
-- **Gesamtnote: 9,7 / 10** (außergewöhnlich) — 25 Bewertungen
+### Bewertungen
+**Airbnb:** 4,9 / 5 — 182 Bewertungen (Gäste-Favorit, 91% Fünf-Sterne)
+- Sauberkeit: 5,0 | Check-in: 5,0 | Kommunikation: 5,0
+- Preis-Leistung: 4,9 | Lage: 4,7
+
+**Booking.com:** 9,7 / 10 — 25 Bewertungen (außergewöhnlich)
 - Personal: 9,9 | Sauberkeit: 9,9 | Ausstattung: 9,7
-- Komfort: 9,7 | Preis-Leistung: 9,7 | Lage: 9,2
-- **Was Gäste am meisten loben:** perfekte Ausstattung, liebevolle Einrichtung, ruhige Lage, nette Gastgeber
+
+**Was Gäste am meisten loben:** perfekte Ausstattung, Kaffeevollautomat, Fußbodenheizung, liebevolle Einrichtung, ruhige Lage, nette Gastgeber (Heike & René)
 
 ### Buchungsstand
 - Aktuell gut gebucht bis Ende August
