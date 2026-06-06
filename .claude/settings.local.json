@@ -5,7 +5,9 @@
       "PowerShell(gh auth status)",
       "WebFetch(domain:www.airbnb.de)",
       "WebFetch(domain:www.booking.com)",
-      "Bash(cp \"/c/Users/Heike/Downloads/Gaesteinformation_Ferienhaus_12.html\" \"/c/Users/Heike/Jarvis/claude-workspace-vorlage/outputs/website/gaesteinformation.html\")"
+      "Bash(cp \"/c/Users/Heike/Downloads/Gaesteinformation_Ferienhaus_12.html\" \"/c/Users/Heike/Jarvis/claude-workspace-vorlage/outputs/website/gaesteinformation.html\")",
+      "Bash(ls \"/c/Users/Heike/Pictures/Saved Pictures/Ferienhaus 2025/\")",
+      "Bash(mkdir -p \"/c/Users/Heike/Jarvis/claude-workspace-vorlage/outputs/website/fotos\" && cp \\\\ *)"
     ]
   }
 }
