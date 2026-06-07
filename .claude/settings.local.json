@@ -7,7 +7,15 @@
       "WebFetch(domain:www.booking.com)",
       "Bash(cp \"/c/Users/Heike/Downloads/Gaesteinformation_Ferienhaus_12.html\" \"/c/Users/Heike/Jarvis/claude-workspace-vorlage/outputs/website/gaesteinformation.html\")",
       "Bash(ls \"/c/Users/Heike/Pictures/Saved Pictures/Ferienhaus 2025/\")",
-      "Bash(mkdir -p \"/c/Users/Heike/Jarvis/claude-workspace-vorlage/outputs/website/fotos\" && cp \\\\ *)"
+      "Bash(mkdir -p \"/c/Users/Heike/Jarvis/claude-workspace-vorlage/outputs/website/fotos\" && cp \\\\ *)",
+      "Bash(cd \"/c/Users/Heike/Jarvis/claude-workspace-vorlage/outputs/website\" && grep -n -i \"fahrrad\\\\|garage\\\\|schuppen\\\\|abstell\\\\|terrasse\\\\|grill\" gaesteinformation.html | head -50)",
+      "Bash(awk 'NR==371 || NR==375 || NR==376 || NR==377 || NR==378 || NR==379 || NR==380 || NR==381 || NR==382 || NR==383' gaesteinformation.html)",
+      "Bash(ls -lt \"/c/Users/Heike/Downloads\" | head -20; echo \"---\"; ls -lt \"/c/Users/Heike/Pictures/Saved Pictures\" 2>/dev/null | head -10)",
+      "Bash(find \"/c/Users/Heike/AppData/Local/Temp\" -newer \"/c/Users/Heike/Downloads/pdfDruck - 2026-06-07T122437.980.pdf\" -iname \"*.png\" -o -newer \"/c/Users/Heike/Downloads/pdfDruck - 2026-06-07T122437.980.pdf\" -iname \"*.jpg\" -o -newer \"/c/Users/Heike/Downloads/pdfDruck - 2026-06-07T122437.980.pdf\" -iname \"*.jpeg\" 2>/dev/null | head -20)",
+      "Bash(grep -v \"node_modules\\\\|AppData\\\\\\\\Local\\\\\\\\Microsoft\")",
+      "Bash(cp \"/c/Users/Heike/Pictures/Saved Pictures/Ferienhaus 2025/20260606_120134.jpg\" \"parkplatz-1.jpg\")",
+      "Bash(cp \"/c/Users/Heike/Pictures/Saved Pictures/Ferienhaus 2025/20260606_120141.jpg\" \"parkplatz-2.jpg\")",
+      "Bash(cp \"/c/Users/Heike/Pictures/Saved Pictures/Ferienhaus 2025/20260606_120144.jpg\" \"parkplatz-3.jpg\")"
     ]
   }
 }
