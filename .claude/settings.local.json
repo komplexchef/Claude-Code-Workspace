@@ -15,7 +15,8 @@
       "Bash(grep -v \"node_modules\\\\|AppData\\\\\\\\Local\\\\\\\\Microsoft\")",
       "Bash(cp \"/c/Users/Heike/Pictures/Saved Pictures/Ferienhaus 2025/20260606_120134.jpg\" \"parkplatz-1.jpg\")",
       "Bash(cp \"/c/Users/Heike/Pictures/Saved Pictures/Ferienhaus 2025/20260606_120141.jpg\" \"parkplatz-2.jpg\")",
-      "Bash(cp \"/c/Users/Heike/Pictures/Saved Pictures/Ferienhaus 2025/20260606_120144.jpg\" \"parkplatz-3.jpg\")"
+      "Bash(cp \"/c/Users/Heike/Pictures/Saved Pictures/Ferienhaus 2025/20260606_120144.jpg\" \"parkplatz-3.jpg\")",
+      "Bash(cd \"/c/Users/Heike/Jarvis/claude-workspace-vorlage/outputs/website/fotos\" && rm -f parkplatz-2.jpg && ls parkplatz*)"
     ]
   }
 }
