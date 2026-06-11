@@ -26,6 +26,13 @@
 - **Kapazität:** bis 4 Personen (1 Doppelbett + 1 Schlafsofa im Wohnzimmer)
 - **Kommunikation:** ferienhaus19@gmail.com
 
+### Website (live seit Juni 2026)
+- **Hauptseite:** https://komplexchef.github.io/ferienhaus-cottage-website/
+- **Gästeinformation:** https://komplexchef.github.io/ferienhaus-cottage-website/gaesteinformation.html
+- Gehostet via GitHub Pages, Repo: komplexchef/ferienhaus-cottage-website (öffentlich)
+- Quellcode/Bearbeitung lokal unter: C:\Users\Heike\Jarvis\ferienhaus-website\
+- QR-Code in der Gästeinformation verlinkt automatisch auf die aktuelle Gästeseite
+
 ### Ausstattung
 - Terrasse mit Gartenblick, Küche (Kühlschrank, Geschirrspüler), Waschmaschine
 - WLAN, Flachbild-TV, eigenes Badezimmer mit Dusche
