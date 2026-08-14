@@ -1,7 +1,7 @@
 # Plan: Akku-Logistik PWA (ADR-konform)
 
 **Erstellt:** 2026-06-29
-**Status:** Entwurf
+**Status:** Implementiert
 **Anforderung:** ADR-konforme PWA zur Erfassung defekter Akkus mit Foto, Inventarliste, Verpackungsanweisungen und PDF-Versandauftrag per E-Mail an Spediteur.
 
 ---
@@ -77,7 +77,7 @@ Defekte Lithium-Akkus sind Gefahrgut der Klasse 9 und unterliegen strengen ADR-V
 | `akku-logistik-app/src/adr.ts` | ADR-Klassifizierungs-Logik und Verpackungsregeln |
 | `akku-logistik-app/src/pdf.ts` | PDF-Generierung (Inventarliste, Beförderungspapier, Packliste) |
 | `akku-logistik-app/src/photo.ts` | Foto-Capture und Komprimierung (Canvas API) |
-| `akku-logistik-app/src/data/spediteure.ts` | Vorkonfigurierte Spediteure (Name, E-Mail, Hinweise) |
+| `akku-logistik-app/src/data/entsorger.ts` | Vorkonfigurierte Entsorger (Landbell Group als Standard, "Eigener Entsorger" als Custom-Slot) |
 | `akku-logistik-app/src/components/Uebersicht.tsx` | Startbildschirm mit Sendungs-Liste + "Neue Sendung"-Button |
 | `akku-logistik-app/src/components/SendungView.tsx` | Detailansicht einer Sendung mit Akku-Liste + Versand-Button |
 | `akku-logistik-app/src/components/AkkuForm.tsx` | Formular zur Akku-Erfassung mit Foto-Aufnahme |
@@ -106,11 +106,13 @@ Keine.
 3. **localStorage statt IndexedDB**: Reicht für mittelgroße Datenmengen (Fotos werden komprimiert auf ~80 KB JPEG, Limit ~5 MB → ~60 Akkus). Pattern identisch zu kassenbuch-app. Bei Bedarf später migrierbar.
 4. **Foto-Komprimierung im Browser**: Canvas-API skaliert auf max. 1280px Längskante, JPEG-Quality 0.7. Hält localStorage klein und Versand-PDFs handhabbar.
 5. **PDF clientseitig mit jsPDF**: Keine Server-Abhängigkeit, Offline-fähig, ausreichende Qualität für Beförderungspapier (DIN A4, monochrom, Tabellen).
-6. **Spediteur-Versand per `mailto:` mit PDF-Download als Fallback**: Da `mailto:` keine Anhänge erlaubt, lädt die App PDFs lokal herunter und öffnet einen vorbefüllten Mail-Entwurf — der Nutzer hängt die PDFs manuell an. Einfach, browserweit kompatibel, keine Server-Infrastruktur nötig.
-7. **ADR-Logik als reine Datenfunktion (`adr.ts`)**: Trennung von Regelwerk und UI, leicht testbar, später erweiterbar (z.B. SV 188 für Versand kleiner Mengen).
-8. **Sendung als oberstes Aggregat**: Mehrere Akkus werden zu einer Sendung gebündelt → eine Sendung = ein Versandauftrag = ein PDF-Bündel. Spiegelt die reale Logistik.
-9. **Keine Backend-/Cloud-Komponente in v1**: Daten bleiben auf dem Gerät, Export/Import über JSON-Datei (Pattern aus kassenbuch-app). Datenschutz-freundlich, kein DSGVO-Aufwand.
-10. **Branch `claude/battery-logistics-app-vhzhwe`** (vorgegeben): Hier wird alles entwickelt, kein PR ohne explizite User-Aufforderung.
+6. **Landbell Group als vorkonfigurierter Auftragsentsorger**: User arbeitet regelmäßig mit Landbell (Rücknahmesystem für Altbatterien). Vorbelegung spart Zeit; „Eigener Entsorger" bleibt für Ausnahmefälle wählbar. Landbell-spezifisches PDF-Format wird nachgezogen, sobald deren Dokument in `reference/landbell/` liegt.
+7. **Feingliedrige Chemien-Liste**: Li-Ion, LiFePO4, Li-Polymer, Li-Metall, NiMH, NiCd, Blei-Gel, Blei-Säure, Alkaline, Zink-Kohle. LiFePO4 separat, weil thermisch stabiler und in der Praxis anders zu bewerten (trotz gleicher UN-Nummer). Erlaubt spätere Auswertung/Statistik nach Chemie.
+8. **E-Mail-Versand per `mailto:` mit PDF-Download als Fallback**: Da `mailto:` keine Anhänge erlaubt, lädt die App PDFs lokal herunter und öffnet einen vorbefüllten Mail-Entwurf — der Nutzer hängt die PDFs manuell an. Einfach, browserweit kompatibel, keine Server-Infrastruktur nötig.
+9. **ADR-Logik als reine Datenfunktion (`adr.ts`)**: Trennung von Regelwerk und UI, leicht testbar, später erweiterbar (z.B. SV 188 für Versand kleiner Mengen).
+10. **Sendung als oberstes Aggregat**: Mehrere Akkus werden zu einer Sendung gebündelt → eine Sendung = ein Versandauftrag = ein PDF-Bündel. Spiegelt die reale Logistik.
+11. **Keine Backend-/Cloud-Komponente in v1**: Daten bleiben auf dem Gerät, Export/Import über JSON-Datei (Pattern aus kassenbuch-app). Datenschutz-freundlich, kein DSGVO-Aufwand.
+12. **Branch `claude/battery-logistics-app-vhzhwe`** (vorgegeben): Hier wird alles entwickelt, kein PR ohne explizite User-Aufforderung.
 
 ### Betrachtete Alternativen
 
@@ -123,11 +125,10 @@ Keine.
 
 ### Offene Fragen
 
-Keine — alle Architekturentscheidungen wurden vor Plan-Erstellung mit dem User geklärt (volle ADR-Konformität, PWA, PDF + E-Mail).
+Keine blockierenden Fragen. Alle Architekturentscheidungen wurden vor Plan-Erstellung mit dem User geklärt (volle ADR-Konformität, PWA, PDF + E-Mail, Landbell als Haupt-Entsorger, feingliedrige Chemien-Liste).
 
-Optionale Klärungen während der Implementierung:
-- Welche konkreten Spediteure sollen vorkonfiguriert werden? Vorschlag: Generischer Eintrag „Eigener Spediteur" + Schenker, DHL Freight, DPD, Hermes als Auswahl. Lässt sich nach Wunsch anpassen.
-- Sollen Firmen-Stammdaten (Absender) aus `context/business-info.md` vorbelegt werden? Vorschlag: Ja, mit Editier-Möglichkeit in den App-Einstellungen.
+**Wartend auf Zulieferung (blockiert nicht v1):**
+- Landbell-Dokument (Vorlage/Vordruck) wird der User nach `reference/landbell/` hochladen. Sobald verfügbar, wird `generateBefoerderungspapier` bzw. eine zusätzliche `generateLandbellFormular`-Funktion an das Landbell-Layout angepasst. Bis dahin verwendet die App ein ADR-konformes Standard-Beförderungspapier (nach 5.4.1 ADR).
 
 ---
 
@@ -187,7 +188,7 @@ Definiere die TypeScript-Typen für das gesamte Domänenmodell.
 **Aktionen:**
 
 - `src/types.ts` mit folgenden Typen schreiben:
-  - `AkkuChemie`: `'lithium-ion' | 'lithium-metall' | 'nimh' | 'blei' | 'andere'`
+  - `AkkuChemie`: `'lithium-ion' | 'lifepo4' | 'lithium-polymer' | 'lithium-metall' | 'nimh' | 'nicd' | 'blei-gel' | 'blei-saeure' | 'alkaline' | 'zink-kohle' | 'andere'` (LiFePO4 wird separat geführt, weil thermisch stabiler — nutzt aber dieselbe UN-Nummer wie Li-Ion)
   - `AkkuZustand`: `'intakt' | 'gebraucht' | 'defekt' | 'kritisch-defekt'` (kritisch-defekt = brandgefährdet, austretender Elektrolyt, etc.)
   - `AdrUnNummer`: `'UN3480' | 'UN3481' | 'UN3090' | 'UN3091' | 'UN2800' | null`
   - `AdrSv`: `'SV376' | 'SV377' | 'SV188' | null`
@@ -195,8 +196,8 @@ Definiere die TypeScript-Typen für das gesamte Domänenmodell.
   - `Akku`: `{ id, datum, foto (base64), hersteller, modell, chemie, zustand, spannung_v, kapazitaet_wh, gewicht_kg, anzahl, seriennr?, bemerkung, adr: { unNummer, sv, verpackung, klasse: '9' } }`
   - `Absender`: `{ firma, strasse, plz, ort, ansprechpartner, telefon, email }`
   - `Empfaenger`: `{ firma, strasse, plz, ort, telefon, email }`
-  - `Spediteur`: `{ id, name, email, hinweise, kontakt }`
-  - `Sendung`: `{ id, erstellt, status: 'entwurf' | 'verpackt' | 'versendet', absender, empfaenger, spediteurId?, akkus: Akku[], abholungWunschdatum?, bemerkung }`
+  - `Entsorger`: `{ id, name, firma, adresse: { strasse, plz, ort, land }, email, ansprechpartner, telefon, hinweise, formatVorlage?: 'landbell' | 'standard' }`
+  - `Sendung`: `{ id, erstellt, status: 'entwurf' | 'verpackt' | 'versendet', absender, entsorgerId?, akkus: Akku[], abholungWunschdatum?, kundenNr?: string, referenz?: string, bemerkung }` (kundenNr/referenz z.B. für Landbell-Vertragsnummer)
   - `AppData`: `{ sendungen: Sendung[], absenderVorlage?: Absender }`
 
 **Betroffene Dateien:**
@@ -273,22 +274,22 @@ Implementiere `useStore` analog zur kassenbuch-app, erweitert um Sendungen und A
 
 ---
 
-### Schritt 7: Spediteur-Stammdaten
+### Schritt 7: Entsorger-/Spediteur-Stammdaten
 
-Erstelle vorkonfigurierte Spediteurliste.
+Erstelle die Stammdaten mit Landbell Group als vorkonfiguriertem Haupt-Auftragsentsorger.
 
 **Aktionen:**
 
-- `src/data/spediteure.ts` schreiben mit 4–5 Beispiel-Einträgen:
-  - Generisch "Eigener Spediteur" (E-Mail leer, vom Nutzer einzutragen)
-  - DHL Freight (Beispiel-E-Mail-Platzhalter, Hinweis "Gefahrgut-Annahme nur mit Voranmeldung")
-  - DPD (Hinweis "P909 erforderlich")
-  - Schenker (Hinweis "ADR-Schulung des Fahrers nötig")
-  - Hermes (Hinweis "Keine kritisch defekten Akkus")
+- `src/data/entsorger.ts` schreiben mit:
+  - **Landbell Group** (Standard-Auswahl): Adresse Landbell AG, Rheinstraße 4L, 55116 Mainz. Kontakt-Platzhalter für E-Mail (nachtragbar), Hinweis "Rücknahmesystem für Altbatterien, ADR-konforme Abholung — Landbell-Formular verwenden sobald hinterlegt".
+  - **Eigener Entsorger** (leerer Custom-Eintrag)
+  - Später optional: weitere (GRS Batterien, Stiftung ear) — für v1 aber nur Landbell + Custom, damit die App fokussiert bleibt.
+- Struktur enthält Felder für: Firma, Adresse, Kontakt-E-Mail, Ansprechpartner, Hinweise, optional `formatVorlage` (Kennzeichen für Landbell-spezifisches PDF-Layout, sobald das Dokument in `reference/landbell/` verfügbar ist).
+- Kommentar mit Hinweis "TODO: Landbell-Dokument aus reference/landbell/ als Vorlage einbinden, sobald verfügbar".
 
 **Betroffene Dateien:**
 
-- `akku-logistik-app/src/data/spediteure.ts`
+- `akku-logistik-app/src/data/entsorger.ts`
 
 ---
 
@@ -321,7 +322,7 @@ Implementiere die React-Komponenten (mobile-first, Tailwind 4).
 - `src/components/SendungView.tsx` — Detail einer Sendung: Akku-Liste mit Foto-Thumbnail, ADR-Klassifizierung, Summary-Footer (Gesamtgewicht, Anzahl), Button "Akku hinzufügen", Button "Versand vorbereiten" (öffnet VersandDialog).
 - `src/components/AkkuForm.tsx` — Formular mit: Foto-Aufnahme (mit Preview), Hersteller, Modell, Chemie (Dropdown), Zustand (Dropdown mit Warnung bei "kritisch-defekt"), Spannung, Kapazität, Gewicht, Anzahl, Seriennr, Bemerkung. Live-Anzeige der berechneten ADR-Klassifizierung über `AdrInfo`.
 - `src/components/AdrInfo.tsx` — Zeigt UN-Nummer + Bezeichnung, Sondervorschrift, Verpackungsanweisung, Etiketten-Symbole; klick → Aufklapp-Box mit Verpackungs-Detailtext.
-- `src/components/VersandDialog.tsx` — Spediteur-Auswahl (Dropdown aus `spediteure.ts` + Custom-Felder), Empfänger-Eingabe, Wunschdatum, Validierungs-Warnungen aus `validiereSendung`. Buttons: "PDFs herunterladen" → erstellt alle drei PDFs, lädt sie herunter, öffnet `mailto:`-Link mit vorbefülltem Betreff/Body inkl. Hinweis "Bitte angehängte PDFs prüfen". Status auf "Versendet" markieren.
+- `src/components/VersandDialog.tsx` — Entsorger-Auswahl (Dropdown aus `entsorger.ts`, Landbell voreingestellt), Kundennummer/Referenz-Feld für Landbell, Wunschdatum, Validierungs-Warnungen aus `validiereSendung`. Buttons: "PDFs herunterladen" → erstellt alle drei PDFs, lädt sie herunter, öffnet `mailto:`-Link mit vorbefülltem Betreff/Body inkl. Hinweis "Bitte angehängte PDFs prüfen". Status auf "Versendet" markieren.
 
 **Betroffene Dateien:**
 
@@ -465,3 +466,38 @@ Arbeit auf dem vorgegebenen Branch sichern.
 - **Datenschutz**: Daten verbleiben lokal im Browser. Beim Versand-PDF werden Daten an den Spediteur weitergegeben — Standardgeschäftsdatenschutz, kein DSGVO-Sonderfall.
 - **Browser-Kompatibilität**: PWA-Installation auf iOS Safari etwas eingeschränkter als Android Chrome, Funktionalität läuft aber überall. Kamera-Capture über `<input capture>` ist universell unterstützt.
 - **Testdaten**: Beispiel-Sendung mit 2–3 Akkus könnte im Store als Demo-Daten beim Erststart angeboten werden — bewusst weggelassen, damit kein Datenmüll entsteht. User kann nach dem ersten Login direkt produktiv loslegen.
+
+---
+
+## Implementierungsnotizen
+
+**Implementiert:** 2026-08-14
+
+### Zusammenfassung
+
+- Vollständige PWA `akku-logistik-app/` angelegt (React 19, Vite 8, TypeScript, Tailwind 4, jsPDF).
+- Datenmodell mit feingliedriger Chemien-Liste (Li-Ion, LiFePO4, Li-Polymer, Li-Metall, NiMH, NiCd, Blei-Gel, Blei-Säure, Alkaline, Zink-Kohle).
+- ADR-Klassifizierungs-Modul mit UN 3480/3481/3090/3091/2800, SV 188/376/377, Verpackungsanweisungen P801/P903/P909/P911/LP904.
+- Landbell Group als vorkonfigurierter Standard-Entsorger, "Eigener Entsorger" als Custom-Slot.
+- Foto-Capture per Kamera + Komprimierung auf 1280 px / JPEG-Q0.7 als Base64.
+- Store mit localStorage, JSON-Export/Import.
+- PDF-Generierung: Inventarliste, ADR-Beförderungspapier (5.4.1), Packliste/Konformitätscheckliste.
+- VersandDialog mit Validierung, PDF-Download, `mailto:`-Öffnung.
+- Service Worker für Offline-Betrieb.
+- Build (`npm run build`) und Lint (`npm run lint`) grün.
+- CLAUDE.md um "Apps im Workspace" erweitert.
+- `reference/landbell/` als Ablage für den Landbell-Vordruck angelegt.
+
+### Abweichungen vom Plan
+
+- Verpackungsanweisung P801 (Blei-Batterien) wurde zusätzlich in `AdrVerpackung` aufgenommen — im Plan nicht namentlich erwähnt, aber notwendig, sobald Blei-Batterien in der Chemie-Auswahl auftauchen.
+- Vite-Base-Pfad ist bereits gesetzt, GitHub-Pages-Deployment (analog kassenbuch-app) wurde nicht mit ausgeführt — das ist ein separater Schritt, wenn die App online gestellt werden soll.
+
+### Aufgetretene Probleme
+
+- Einmaliger TypeScript-Fehler bei P801 (nicht im Typ enthalten) → gefixt durch Typ-Erweiterung + Verpackungsanweisungstext.
+
+### Offene Nachschritte (aus User-Zulieferung)
+
+- Landbell-Formular in `reference/landbell/` hinterlegen → PDF-Layout entsprechend anpassen (`pdf.ts`, verzweigt auf `entsorger.formatVorlage === 'landbell'`).
+- Optional: GitHub-Pages-Workflow für die App analog `docs/`-Pattern der kassenbuch-app.

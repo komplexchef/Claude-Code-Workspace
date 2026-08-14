@@ -38,7 +38,9 @@ Claude sollte sich immer über `/prime` am Session-Start orientieren, dann mit v
 ├── plans/                 # Implementierungspläne erstellt von /create-plan
 ├── outputs/               # Arbeitsergebnisse und Deliverables
 ├── reference/             # Vorlagen, Beispiele, wiederverwendbare Patterns
-└── scripts/               # Automatisierungsskripte (falls zutreffend)
+├── scripts/               # Automatisierungsskripte (falls zutreffend)
+├── kassenbuch-app/        # PWA: Aufträge & Rechnungen 2026 (Abfallentsorgung)
+└── akku-logistik-app/     # PWA: ADR-konforme Erfassung defekter Akkus
 ```
 
 **Verzeichnisse:**
@@ -48,8 +50,23 @@ Claude sollte sich immer über `/prime` am Session-Start orientieren, dann mit v
 | `context/`   | Wer der User ist, seine Rolle, aktuelle Prioritäten, Strategien. Gelesen von `/prime`. |
 | `plans/`     | Detaillierte Implementierungspläne. Erstellt mit `/create-plan`, umgesetzt mit `/implement`. |
 | `outputs/`   | Deliverables, Analysen, Reports und Arbeitsergebnisse.                                 |
-| `reference/` | Hilfreiche Dokumentation, Vorlagen und Patterns für verschiedene Workflows.            |
+| `reference/` | Hilfreiche Dokumentation, Vorlagen und Patterns für verschiedene Workflows. `reference/landbell/` enthält den Landbell-Vordruck, sobald hochgeladen. |
 | `scripts/`   | Automatisierungs- und Tooling-Skripte.                                                 |
+
+### Apps im Workspace
+
+Eigenständige PWA-Projekte mit eigenem `package.json` und Vite-Setup.
+Werden in eigenen Unterordnern gepflegt und teilen sich denselben Stack:
+React 19, TypeScript, Vite 8, Tailwind 4, localStorage-Persistenz.
+
+| App | Zweck | Pfad |
+| --- | --- | --- |
+| Kassenbuch | Aufträge & Rechnungen 2026 (Abfallentsorgung) | `kassenbuch-app/` |
+| Akku-Logistik | Defekte Akkus fotografieren, ADR-konform klassifizieren (UN 3480/3481/3090/3091, SV 376/377, P909/P911), PDF-Versandpapiere für Landbell Group erzeugen | `akku-logistik-app/` |
+
+Beide Apps sind mobile-first PWA und werden per GitHub Pages ausgeliefert
+(Basis-Pfad in `vite.config.ts` beachten). Setup jeweils: `npm install`,
+`npm run dev`.
 
 ---
 
@@ -127,3 +144,4 @@ Um diesen Workspace an deine eigenen Bedürfnisse anzupassen, fülle deine Konte
 - Pläne in `plans/` mit datierten Dateinamen für die Historie
 - Outputs nach Typ/Zweck in `outputs/` organisiert
 - Referenzmaterialien in `reference/` zur Wiederverwendung
+- **ADR-Disclaimer:** Die `akku-logistik-app` ist ein Hilfswerkzeug zur strukturierten Erfassung von Batterie-Sendungen und ersetzt keinen Gefahrgutbeauftragten (ADR 1.8.3). Für den tatsächlichen Versand sind ADR/RID/IMDG und die Vorgaben des Entsorgers verbindlich.
