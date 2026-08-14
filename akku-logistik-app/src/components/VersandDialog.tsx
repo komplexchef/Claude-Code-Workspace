@@ -13,7 +13,7 @@ interface Props {
 }
 
 export function VersandDialog({ sendung, customEntsorger, onClose, onUpdate, onVersendet }: Props) {
-  const [entsorgerId, setEntsorgerId] = useState(sendung.entsorgerId || 'landbell');
+  const [entsorgerId, setEntsorgerId] = useState(sendung.entsorgerId || 'ds-entsorgung');
   const [referenz, setReferenz] = useState(sendung.referenz ?? '');
   const [kundenNr, setKundenNr] = useState(sendung.absender.kundenNr ?? '');
   const [wunschdatum, setWunschdatum] = useState(sendung.abholungWunschdatum ?? '');
@@ -133,7 +133,7 @@ export function VersandDialog({ sendung, customEntsorger, onClose, onUpdate, onV
               <p className="mt-2 text-xs text-gray-600">{entsorger.hinweise}</p>
             )}
             <div className="mt-3 grid grid-cols-2 gap-3">
-              <TextFeld label="Kundennummer" value={kundenNr} onChange={setKundenNr} placeholder="Landbell-Kd.-Nr." />
+              <TextFeld label="Kundennummer" value={kundenNr} onChange={setKundenNr} placeholder="z.B. 53129 (Landbell)" />
               <TextFeld label="Referenz / Auftragsnr." value={referenz} onChange={setReferenz} />
               <TextFeld label="Abholung Wunschdatum" value={wunschdatum} onChange={setWunschdatum} type="date" />
             </div>

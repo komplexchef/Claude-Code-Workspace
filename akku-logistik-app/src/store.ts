@@ -3,13 +3,15 @@ import type { Absender, Akku, AppData, Entsorger, Sendung } from './types';
 
 const STORAGE_KEY = 'akku-logistik-v1';
 
-const LEERER_ABSENDER: Absender = {
-  firma: '',
-  adresse: { strasse: '', plz: '', ort: '', land: 'Deutschland' },
-  ansprechpartner: '',
+// Absender-Vorlage vorbelegt mit TU Dresden-Kontext (aus Landbell-Korrespondenz).
+// Kann in den Einstellungen bzw. beim Versand jederzeit überschrieben werden.
+const DEFAULT_ABSENDER: Absender = {
+  firma: 'TU Dresden',
+  adresse: { strasse: '', plz: '01062', ort: 'Dresden', land: 'Deutschland' },
+  ansprechpartner: 'René Hennig',
   telefon: '',
-  email: '',
-  kundenNr: '',
+  email: 'rene.hennig@tu-dresden.de',
+  kundenNr: '53129',
 };
 
 function loadData(): AppData {
@@ -21,7 +23,7 @@ function loadData(): AppData {
   }
   return {
     sendungen: [],
-    absenderVorlage: LEERER_ABSENDER,
+    absenderVorlage: DEFAULT_ABSENDER,
     entsorgerCustom: [],
   };
 }
@@ -45,7 +47,7 @@ export function useStore() {
     saveData(data);
   }, [data]);
 
-  function createSendung(entsorgerId = 'landbell'): Sendung {
+  function createSendung(entsorgerId = 'ds-entsorgung'): Sendung {
     const s: Sendung = {
       id: neueId(),
       erstellt: new Date().toISOString(),
