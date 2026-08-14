@@ -43,7 +43,7 @@ export type AdrUnNummer =
   | null;
 
 export type AdrSv = 'SV376' | 'SV377' | 'SV188' | null;
-export type AdrVerpackung = 'P801' | 'P903' | 'P909' | 'P911' | 'LP904' | null;
+export type AdrVerpackung = 'P801' | 'P903' | 'P909' | 'P909-PALOXE' | 'P911' | 'LP904' | null;
 export type AdrKlasse = '8' | '9' | null;
 
 export interface AdrKlassifizierung {

@@ -3,13 +3,14 @@ import type { Absender, Akku, AppData, Entsorger, Sendung } from './types';
 
 const STORAGE_KEY = 'akku-logistik-v1';
 
-// Absender-Vorlage vorbelegt mit TU Dresden-Kontext (aus Landbell-Korrespondenz).
-// Kann in den Einstellungen bzw. beim Versand jederzeit überschrieben werden.
+// Absender-Vorlage TU Dresden (aus Landbell-Kundenstammdatenblatt 12/2021).
+// Anschrift Abholstelle: Fuhrpark, 01217 Dresden (NICHT die Sammel-PLZ 01062,
+// die gilt nur für den zentralen Rechnungseingang!).
 const DEFAULT_ABSENDER: Absender = {
   firma: 'TU Dresden',
-  adresse: { strasse: '', plz: '01062', ort: 'Dresden', land: 'Deutschland' },
-  ansprechpartner: 'René Hennig',
-  telefon: '',
+  adresse: { strasse: 'Fuhrpark', plz: '01217', ort: 'Dresden', land: 'Deutschland' },
+  ansprechpartner: 'Herr Hennig (Gefahrgut- und Gewässerschutzbeauftragter)',
+  telefon: '0351 46333627',
   email: 'rene.hennig@tu-dresden.de',
   kundenNr: '53129',
 };

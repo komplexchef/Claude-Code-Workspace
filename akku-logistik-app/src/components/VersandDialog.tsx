@@ -61,6 +61,7 @@ export function VersandDialog({ sendung, customEntsorger, onClose, onUpdate, onV
     downloadPdf(pdfs.inventar, `${base}-inventar.pdf`);
     downloadPdf(pdfs.bef, `${base}-befoerderungspapier.pdf`);
     downloadPdf(pdfs.pack, `${base}-packliste.pdf`);
+    if (pdfs.label) downloadPdf(pdfs.label, `${base}-kennzeichnungslabel.pdf`);
   }
 
   function mailOeffnen() {

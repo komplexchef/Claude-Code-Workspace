@@ -79,9 +79,9 @@ export function klassifiziereAkku(
         'Defekt — UN-zertifizierte Verpackung mit nicht-brennbarem, nicht-leitendem Füllmaterial (Vermiculit/Sand). Kein direkter Kontakt zwischen Zellen.';
     } else if (zustand === 'gebraucht') {
       sv = 'SV377';
-      verpackung = 'P909';
+      verpackung = 'P909-PALOXE';
       hinweis =
-        'Zur Entsorgung (SV 377) — Sammelbeförderung an anerkannten Entsorger. UN-zertifizierte Verpackung, Pole isoliert.';
+        'Zur Entsorgung (SV 377) — bei DS/Landbell Standard: Dolav-Paloxe. Pole abkleben, in Vermiculit einbetten (oben/unten/seitlich), einzeln mit Abstand einlegen. Keine kritisch defekten Akkus in die Paloxe!';
     } else {
       sv = 'SV188';
       verpackung = 'P903';
@@ -148,6 +148,20 @@ export function getVerpackungsAnweisung(vp: AdrVerpackung): {
           'Innenverpackung so, dass Zellen sich nicht berühren und nicht verrutschen können.',
           'Kennzeichnung mit "BESCHÄDIGTE/DEFEKTE LITHIUM-IONEN-BATTERIEN" bzw. entsprechend UN-Nummer.',
           'Kein direkter Kontakt zwischen Polen.',
+        ],
+      };
+    case 'P909-PALOXE':
+      return {
+        code: 'P909 (Dolav-Paloxe)',
+        titel: 'P909 in Dolav-Paloxe (DS/Landbell-Standard für SV 377)',
+        punkte: [
+          'Dolav-Paloxe: extra angefertigte Sammelbox mit Kunststoff-Verkleidung und Metall-Grundgerüst.',
+          'Vorher alle Pole mit Isolierband abkleben.',
+          'Akkus einzeln mit Abstand einlegen — Pole dürfen sich nicht berühren.',
+          'Nicht direkt auf den Boden legen — komplett in Vermiculit einbetten (oben/unten/links/rechts).',
+          'Zwischenräume ebenfalls mit Vermiculit verfüllen; mehrere Schichten übereinander zulässig.',
+          'KEINE transportkritischen Akkus (ADR SV 376): keine Ausgasung, nicht aufgebläht, nicht deformiert, nicht äußerlich beschädigt — im Zweifel Beurteilung durch Sachverständigen.',
+          'Kennzeichnungslabel "Lithiumbatterien zum Recycling" (UN 3090 / UN 3480, Klasse 9) außen anbringen.',
         ],
       };
     case 'P911':

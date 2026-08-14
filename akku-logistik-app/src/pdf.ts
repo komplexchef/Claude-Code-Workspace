@@ -321,17 +321,123 @@ export function generatePackliste(sendung: Sendung): Blob {
   return doc.output('blob');
 }
 
+export interface LabelOptions {
+  anzahl?: number;
+  betreiberFirma?: string;
+  betreiberEmail?: string;
+}
+
+// Reproduziert das DS-Kennzeichnungslabel für Paloxen/Sammelbehälter.
+// Layout: A5 quer, Text links, Gefahrzettel Klasse 9A rechts. Ein Label pro Seite.
+export function generateKennzeichnungslabel(opts: LabelOptions = {}): Blob {
+  const anz = opts.anzahl ?? 1;
+  const firma = opts.betreiberFirma ?? 'DS Entsorgungs- und Dienstleistungs- GmbH';
+  const email = opts.betreiberEmail ?? 'batteriesammlung.de@DS-Entsorgungs-Gmbh.de';
+  const doc = new jsPDF({ unit: 'mm', format: 'a5', orientation: 'landscape' });
+  const W = doc.internal.pageSize.getWidth();
+  const H = doc.internal.pageSize.getHeight();
+
+  for (let i = 0; i < anz; i++) {
+    if (i > 0) doc.addPage('a5', 'landscape');
+
+    // Umrandung
+    doc.setLineWidth(0.5);
+    doc.rect(5, 5, W - 10, H - 10);
+
+    // Titel links
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(22);
+    doc.text('LITHIUMBATTERIEN', 10, 22);
+    doc.text('ZUM RECYCLING', 10, 34);
+
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(14);
+    doc.text('Batterien / Akkus', 10, 50);
+    doc.text('Sammelbehälter', 10, 58);
+
+    // Betreiber-Block links unten
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(9);
+    doc.text('Batterierücknahme der', 10, H - 30);
+    doc.setFont('helvetica', 'normal');
+    doc.text(firma, 10, H - 24);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Kontakt:', 10, H - 16);
+    doc.setFont('helvetica', 'normal');
+    doc.text(email, 10, H - 10);
+
+    // Gefahrzettel Klasse 9A (Diamant) rechts
+    const diamondCenterX = W - 55;
+    const diamondCenterY = H / 2;
+    const diamondSize = 55;
+    drawKlasse9Diamond(doc, diamondCenterX, diamondCenterY, diamondSize);
+
+    // UN-Nummern rechts
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(18);
+    doc.text('UN 3090', W - 10, 22, { align: 'right' });
+    doc.text('UN 3480', W - 10, H - 10, { align: 'right' });
+  }
+
+  return doc.output('blob');
+}
+
+// Zeichnet einen vereinfachten Klasse-9A-Gefahrzettel (Lithium-Batterien).
+function drawKlasse9Diamond(doc: jsPDF, cx: number, cy: number, size: number) {
+  const s = size / 2;
+  // Diamant (Raute)
+  doc.setLineWidth(0.6);
+  doc.setDrawColor('#000000');
+  doc.setFillColor('#ffffff');
+  doc.lines(
+    [[s, -s], [s, s], [-s, s], [-s, -s]],
+    cx - s,
+    cy,
+    [1, 1],
+    'FD',
+    true,
+  );
+  // 7 Streifen oben
+  doc.setFillColor('#000000');
+  const stripeW = s * 0.7 / 7;
+  for (let i = 0; i < 7; i++) {
+    const x = cx - stripeW * 3.5 + i * stripeW;
+    doc.rect(x, cy - s * 0.85, stripeW * 0.55, s * 0.6, 'F');
+  }
+  // "9" unten
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(size * 0.28);
+  doc.text('9', cx, cy + s * 0.75, { align: 'center' });
+  // kleiner Strich unter der 9
+  doc.setLineWidth(0.4);
+  doc.line(cx - 2, cy + s * 0.82, cx + 2, cy + s * 0.82);
+  // Symbol-Kasten "Batterien mit Flamme" (Text-Ersatz)
+  doc.setFontSize(8);
+  doc.setFont('helvetica', 'normal');
+  doc.text('Li-Batt', cx, cy + s * 0.2, { align: 'center' });
+}
+
 export interface SendungsPdfs {
   inventar: Blob;
   bef: Blob;
   pack: Blob;
+  label?: Blob;
 }
 
 export function generateAlleDokumente(sendung: Sendung, entsorger: Entsorger): SendungsPdfs {
+  // Anzahl Labels = Anzahl unterschiedlicher Verpackungsstücke (aggregiert = 1 pro Sendung als Default).
+  const labelAnzahl = Math.max(1, sendung.akkus.filter((a) => a.adr.verpackung === 'P909-PALOXE').length > 0 ? 1 : 0);
   return {
     inventar: generateInventarliste(sendung),
     bef: generateBefoerderungspapier(sendung, entsorger),
     pack: generatePackliste(sendung),
+    label: labelAnzahl > 0
+      ? generateKennzeichnungslabel({
+          anzahl: labelAnzahl,
+          betreiberFirma: entsorger.firma,
+          betreiberEmail: entsorger.email || undefined,
+        })
+      : undefined,
   };
 }
 
