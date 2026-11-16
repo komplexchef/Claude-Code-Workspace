@@ -1,0 +1,507 @@
+<title>Unser Beziehungskompass</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Source+Sans+3:wght@400;600&display=swap">
+<style>
+/* Layout: eine ruhige Lesespalte; zwei Personenfarben ziehen sich durch alles (Fragen, Marker, Auswertung) */
+:root{
+  --bg:#f2f4f3; --surface:#ffffff; --fg:#1d2624; --muted:#5d6a67; --line:#d9e0de;
+  --a:#2f6f8f; --a-soft:#dcebf2;      /* Person 1 */
+  --b:#9a4a6e; --b-soft:#f3e1ea;      /* Person 2 */
+  --accent:#2f6b5a; --accent-fg:#ffffff;
+  --ok:#2e7d4f; --ok-soft:#dff1e6; --mid:#a5741a; --mid-soft:#f6ecd6; --bad:#b23b3b; --bad-soft:#f7dede;
+  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141a19; --surface:#1d2523; --fg:#e6ecea; --muted:#9aa8a4; --line:#2f3a37;
+  --a:#7fbad6; --a-soft:#1f3540; --b:#dc93b4; --b-soft:#3d2330;
+  --accent:#6fbfa5; --accent-fg:#0f1715;
+  --ok:#6fcf97; --ok-soft:#1c3427; --mid:#e2b45c; --mid-soft:#3a2f18; --bad:#ef8a8a; --bad-soft:#3d2121; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141a19; --surface:#1d2523; --fg:#e6ecea; --muted:#9aa8a4; --line:#2f3a37;
+  --a:#7fbad6; --a-soft:#1f3540; --b:#dc93b4; --b-soft:#3d2330;
+  --accent:#6fbfa5; --accent-fg:#0f1715;
+  --ok:#6fcf97; --ok-soft:#1c3427; --mid:#e2b45c; --mid-soft:#3a2f18; --bad:#ef8a8a; --bad-soft:#3d2121; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:17px;line-height:1.55}
+.wrap{max-width:760px;margin:0 auto;padding-block:28px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:22px}
+h1,h2,h3{font-family:var(--f-display);line-height:1.15;text-wrap:balance;margin:0}
+h1{font-size:2.3rem;font-weight:700;letter-spacing:-.01em}
+h2{font-size:1.5rem;font-weight:700}
+h3{font-size:1.1rem;font-weight:500}
+p{margin:0}
+.lead{color:var(--muted);max-width:62ch}
+.eyebrow{font-size:.78rem;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);font-weight:600}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;gap:14px}
+.stack{display:flex;flex-direction:column;gap:14px}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:560px){.grid2{grid-template-columns:1fr} h1{font-size:1.85rem}}
+.grid2>*{min-width:0}
+button,.btn{font:inherit;font-weight:600;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--fg);padding:10px 16px;cursor:pointer}
+button.primary{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+button.pa{background:var(--a);border-color:var(--a);color:var(--surface)}
+button.pb{background:var(--b);border-color:var(--b);color:var(--surface)}
+button.ghost{background:transparent}
+button.small{padding:6px 12px;font-size:.9rem}
+button:disabled{opacity:.45;cursor:not-allowed}
+button:focus-visible,input:focus-visible,textarea:focus-visible,label.opt:focus-within{outline:3px solid var(--accent);outline-offset:2px}
+input[type=text],textarea{font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px;width:100%}
+textarea{min-height:92px;resize:vertical}
+.person{border-top:4px solid var(--pc)}
+.person.pa{--pc:var(--a)} .person.pb{--pc:var(--b)}
+.status{font-size:.85rem;font-weight:600;padding:3px 10px;border-radius:99px;background:var(--bg);color:var(--muted);align-self:flex-start}
+.status.done{background:var(--ok-soft);color:var(--ok)}
+.progress{height:6px;background:var(--line);border-radius:99px;overflow:hidden}
+.progress>i{display:block;height:100%;background:var(--pc,var(--accent));transition:width .3s}
+.q{display:flex;flex-direction:column;gap:10px;padding-block:14px;border-top:1px solid var(--line)}
+.q:first-of-type{border-top:0;padding-top:0}
+.q .qt{font-weight:600}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opts.scale{display:grid;grid-template-columns:repeat(5,1fr)}
+@media (max-width:560px){.opts.scale{grid-template-columns:1fr}}
+label.opt{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:8px;padding:8px 12px;cursor:pointer;font-size:.95rem;background:var(--bg);min-width:0}
+.opts.scale label.opt{justify-content:center;text-align:center;font-size:.88rem;line-height:1.25;padding:10px 6px}
+@media (max-width:560px){.opts.scale label.opt{justify-content:flex-start;text-align:left;padding:10px 12px}}
+label.opt input{position:absolute;opacity:0;pointer-events:none}
+label.opt:has(input:checked){border-color:var(--pc);background:var(--pc-soft);font-weight:600}
+.quiz{--pc:var(--a);--pc-soft:var(--a-soft)}
+.quiz.pb{--pc:var(--b);--pc-soft:var(--b-soft)}
+.note{font-size:.92rem;color:var(--muted)}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:.82rem;font-weight:600;padding:3px 10px;border-radius:99px}
+.pill.ok{background:var(--ok-soft);color:var(--ok)} .pill.mid{background:var(--mid-soft);color:var(--mid)} .pill.bad{background:var(--bad-soft);color:var(--bad)}
+.tally{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.tally div{border-radius:8px;padding:12px;display:flex;flex-direction:column}
+.tally b{font-family:var(--f-display);font-size:1.9rem;line-height:1;font-variant-numeric:tabular-nums}
+.tally .ok{background:var(--ok-soft);color:var(--ok)} .tally .mid{background:var(--mid-soft);color:var(--mid)} .tally .bad{background:var(--bad-soft);color:var(--bad)}
+.tally span{font-size:.85rem;font-weight:600}
+.cmp{display:flex;flex-direction:column;gap:6px;padding-block:10px;border-top:1px solid var(--line)}
+.cmp:first-child{border-top:0}
+.cmp .head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.cmp .head span:first-child{min-width:0}
+.track{display:grid;grid-template-columns:repeat(var(--n),1fr);gap:3px}
+.track div{height:26px;border-radius:5px;background:var(--bg);display:flex;align-items:center;justify-content:center;gap:3px}
+.mk{width:20px;height:20px;border-radius:50%;font-size:.7rem;font-weight:700;display:flex;align-items:center;justify-content:center;color:var(--surface)}
+.mk.a{background:var(--a)} .mk.b{background:var(--b)}
+.ends{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted)}
+.bar{display:grid;grid-template-columns:minmax(0,1fr) 120px;gap:12px;align-items:center;padding-block:8px;border-top:1px solid var(--line)}
+.bar:first-child{border-top:0}
+.bar .bars{display:flex;flex-direction:column;gap:3px}
+.bar .bars i{display:block;height:8px;border-radius:4px}
+.bar.out{opacity:.55}
+.quote{border-left:4px solid var(--pc);padding:6px 12px;background:var(--pc-soft);border-radius:0 8px 8px 0;white-space:pre-wrap;overflow-wrap:anywhere}
+.quote.a{--pc:var(--a);--pc-soft:var(--a-soft)} .quote.b{--pc:var(--b);--pc-soft:var(--b-soft)}
+.quote.empty{opacity:.6;font-style:italic}
+ul.clean{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px}
+.code{font-family:ui-monospace,Consolas,monospace;font-size:.8rem;word-break:break-all;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px;max-height:140px;overflow:auto}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:8px;font-weight:600;z-index:20}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.9rem}
+.legend span{display:flex;gap:6px;align-items:center}
+.warn{background:var(--mid-soft);color:var(--fg);border-radius:8px;padding:12px 14px;font-size:.95rem}
+details summary{cursor:pointer;font-weight:600}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap" id="app"></div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+/* ---------- Fragen ---------- */
+const AGREE = ["Stimmt gar nicht","Eher nicht","Teils, teils","Eher ja","Stimmt völlig"];
+const MENU  = ["Nein – meine Grenze","Lieber nicht","Vielleicht","Gern","Unbedingt"];
+const MODEL = ["Kommt nicht in Frage","Eher nicht","Könnte gehen","Gefällt mir","Mein Wunschmodell"];
+
+const SECTIONS = [
+ { id:"gefuehl", title:"Wo wir gerade stehen", intro:"Ehrlich und ohne Rücksicht darauf, was der andere hören möchte. Es gibt keine falschen Antworten.",
+   items:[
+    {id:"g1",type:"agree",text:"Ich fühle mich mit dir gerade wohl und sicher."},
+    {id:"g2",type:"agree",text:"Ich empfinde romantische Liebe für dich."},
+    {id:"g3",type:"agree",text:"Ich fühle mich von dir gesehen und wertgeschätzt."},
+    {id:"g4",type:"agree",text:"Ich möchte, dass wir in irgendeiner Form eng verbunden bleiben."},
+    {id:"g5",type:"agree",text:"Wir können gut miteinander reden, auch über Schwieriges."},
+    {id:"g6",type:"agree",text:"Mir fehlt in unserer Beziehung gerade etwas Wichtiges."},
+    {id:"t1",type:"text",text:"Was fühle ich, wenn ich an uns denke?"}
+ ]},
+ { id:"form", title:"Welche Form wünsche ich mir?", intro:"Beziehungen müssen nicht der Standard-Treppe folgen (kennenlernen, zusammenziehen, alles teilen). Was passt zu dir?",
+   items:[
+    {id:"f1",type:"choice",text:"Am ehesten wünsche ich mir, dass wir …",options:[
+      "ein Liebespaar bleiben, so wie bisher",
+      "ein Liebespaar bleiben, aber mit mehr Freiraum",
+      "Lebensgefährten und Vertraute sind, ohne Paarbeziehung",
+      "gute Freunde und Partner bei gemeinsamen Projekten sind",
+      "freundschaftlich getrennte Wege gehen",
+      "Ich weiß es noch nicht"]},
+    {id:"f2",type:"bipolar",text:"Nähe und Freiraum: Ich wünsche mir …",options:["deutlich mehr Freiraum","etwas mehr Freiraum","es so wie jetzt","etwas mehr Nähe","deutlich mehr Nähe"]},
+    {id:"f3",type:"bipolar",text:"Gemeinsame Zeit wünsche ich mir …",options:["nach Lust und Laune","ein paar Mal im Monat","am Wochenende","mehrmals pro Woche","täglich"]},
+    {id:"t2",type:"text",text:"Was bedeutet „Partnerschaft“ für mich heute, mit meiner Lebenserfahrung?"}
+ ]},
+ { id:"menu", title:"Beziehungs-Bausteine", intro:"Stell dir ein Buffet vor: Jeder Baustein kann Teil eurer Verbindung sein oder nicht. „Nein“ heißt: Das ist meine Grenze.",
+   items:[
+    ["m1","Zusammen wohnen"],["m2","Regelmäßig beieinander übernachten"],["m3","Zärtlichkeit und Körperkontakt"],["m4","Sexualität miteinander"],
+    ["m5","Exklusivität (keine anderen Partner)"],["m6","Täglicher Kontakt (Anruf oder Nachricht)"],["m7","Gemeinsame Mahlzeiten im Alltag"],
+    ["m8","Gemeinsame Urlaube und Reisen"],["m9","Als Paar bei Familie und Freunden auftreten"],["m10","Eigene Hobbys und Freunde ohne den anderen"],
+    ["m11","Gemeinsame Kasse oder gemeinsames Konto"],["m12","Das Ferienhaus gemeinsam weiterführen"],["m13","Sich gegenseitig an Haus und Garten helfen"],
+    ["m14","Füreinander da sein bei Krankheit"],["m15","Gemeinsam alt werden"],["m16","Gemeinsame Zukunftspläne und Projekte"]
+   ].map(([id,text])=>({id,type:"menu",text}))
+ },
+ { id:"wohnen", title:"Wohnen und unsere Häuser", intro:"Bewerte jedes Wohnmodell. Viele Paare leben glücklich in zwei Häusern („Living Apart Together“), andere brauchen ein gemeinsames Dach.",
+   items:[
+    {id:"w1",type:"model",text:"Ein gemeinsames Haus mit gemeinsamem Alltag"},
+    {id:"w2",type:"model",text:"Ein gemeinsames Haus, aber jeder mit eigenem Rückzugsbereich"},
+    {id:"w3",type:"model",text:"Zwei Häuser mit festen gemeinsamen Tagen und Nächten"},
+    {id:"w4",type:"model",text:"Zwei Häuser, jeder lebt für sich, Treffen nach Lust"},
+    {id:"w5",type:"model",text:"Getrennt wohnen, verbunden nur noch durch Freundschaft und Projekte"},
+    {id:"e1",type:"agree",text:"Mir ist wichtig, dass ich mein eigenes Haus behalte."},
+    {id:"e2",type:"agree",text:"Ich könnte mir vorstellen, ein Haus zu verkaufen oder zu vermieten."},
+    {id:"e3",type:"agree",text:"Ich möchte das Ferienhaus weiter gemeinsam betreiben, egal wie unsere Beziehung aussieht."},
+    {id:"e4",type:"agree",text:"Eigentum, Kosten und Arbeit an den Häusern sollten klar und schriftlich geregelt sein."},
+    {id:"t3",type:"text",text:"Was bedeutet mein Zuhause für mich?"}
+ ]},
+ { id:"zukunft", title:"Alltag, Sicherheit und Zukunft", intro:"Hier geht es um Absicherung, Verantwortung und das, was in den nächsten Jahren kommt.",
+   items:[
+    {id:"z1",type:"agree",text:"Ich möchte im Alter oder bei Krankheit für dich da sein."},
+    {id:"z2",type:"agree",text:"Ich wünsche mir, dass du im Alter oder bei Krankheit für mich da bist."},
+    {id:"z3",type:"agree",text:"Wir sollten Vollmachten, Testament und Absicherung miteinander regeln."},
+    {id:"z4",type:"agree",text:"Ich brauche regelmäßig Zeit ganz für mich allein."},
+    {id:"z5",type:"agree",text:"Ich habe Angst, etwas zu verlieren, wenn wir etwas verändern."},
+    {id:"z6",type:"agree",text:"Ich bin bereit, für uns Kompromisse einzugehen."},
+    {id:"t4",type:"text",text:"Was wünsche ich mir für die nächsten fünf Jahre?"}
+ ]},
+ { id:"herz", title:"Mein Herzenswunsch", intro:"Zum Schluss mit eigenen Worten. Diese Antworten lest ihr am Ende gemeinsam.",
+   items:[
+    {id:"t5",type:"text",text:"Das schätze ich an dir:"},
+    {id:"t6",type:"text",text:"Das ist mein größter Wunsch für uns:"},
+    {id:"t7",type:"text",text:"Das ist für mich nicht verhandelbar:"},
+    {id:"t8",type:"text",text:"Davor habe ich Angst:"}
+ ]}
+];
+const ALL = SECTIONS.flatMap(s=>s.items);
+const BYID = Object.fromEntries(ALL.map(q=>[q.id,q]));
+const REQUIRED = ALL.filter(q=>q.type!=="text");
+
+/* ---------- Zustand ---------- */
+const KEY="beziehungskompass-v1";
+const fresh=()=>({names:["René","Heike"],answers:[{},{}],done:[false,false],view:"start",p:0,s:0});
+let S=fresh();
+try{const raw=localStorage.getItem(KEY); if(raw){S=Object.assign(fresh(),JSON.parse(raw)); if(S.view==="results"&&!(S.done[0]&&S.done[1]))S.view="start";}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+const app=document.getElementById("app");
+const esc=t=>String(t??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const N=i=>esc(S.names[i]||(i?"Person 2":"Person 1"));
+const ini=i=>esc((S.names[i]||"?").trim().charAt(0).toUpperCase()||"?");
+function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>t.hidden=true,2200)}
+function go(view,extra){Object.assign(S,{view},extra||{});save();render();window.scrollTo(0,0)}
+function answeredCount(i){return REQUIRED.filter(q=>S.answers[i][q.id]!==undefined).length}
+
+/* ---------- Austausch-Code ---------- */
+function makeCode(i){const json=JSON.stringify({v:1,i,n:S.names[i],a:S.answers[i]});return "BK1:"+btoa(unescape(encodeURIComponent(json)))}
+function readCode(code){
+  const c=code.trim().replace(/\s+/g,""); if(!c.startsWith("BK1:"))throw new Error("Der Code muss mit BK1: beginnen.");
+  const d=JSON.parse(decodeURIComponent(escape(atob(c.slice(4))))); if(d.v!==1||(d.i!==0&&d.i!==1)||typeof d.a!=="object")throw new Error("Der Code ist unvollständig.");
+  return d;
+}
+async function copy(text,el){
+  try{await navigator.clipboard.writeText(text);toast("Kopiert")}
+  catch(e){ if(el){const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r);} toast("Text markiert. Jetzt mit Strg+C kopieren.") }
+}
+
+/* ---------- Ansichten ---------- */
+function render(){
+  if(S.view==="quiz")return renderQuiz();
+  if(S.view==="handoff")return renderHandoff();
+  if(S.view==="results")return renderResults();
+  renderStart();
+}
+
+function personCard(i){
+  const n=answeredCount(i), tot=REQUIRED.length, cls=i?"pb":"pa";
+  const st=S.done[i]?'<span class="status done">Fertig</span>':n?`<span class="status">${n} von ${tot} beantwortet</span>`:'<span class="status">Noch offen</span>';
+  return `<div class="card person ${cls}">
+    <label class="eyebrow" for="name${i}">Person ${i+1}</label>
+    <input type="text" id="name${i}" value="${N(i)}" data-name="${i}" autocomplete="off">
+    ${st}
+    <div class="progress" style="--pc:var(--${i?"b":"a"})"><i style="width:${Math.round(n/tot*100)}%"></i></div>
+    <div class="row">
+      <button class="${cls}" data-start="${i}">${S.done[i]?"Antworten ändern":n?"Weitermachen":"Fragen beantworten"}</button>
+      ${S.done[i]?`<button class="ghost small" data-showcode="${i}">Code zum Teilen</button>`:""}
+    </div>
+  </div>`;
+}
+
+function renderStart(){
+  const both=S.done[0]&&S.done[1];
+  app.innerHTML=`
+  <header class="stack">
+    <span class="eyebrow">Ein Gesprächsspiel für zwei</span>
+    <h1>Unser Beziehungskompass</h1>
+    <p class="lead">Jeder beantwortet die Fragen für sich, ohne die Antworten des anderen zu sehen. Danach vergleicht ihr gemeinsam: Wo seid ihr euch einig, wo gibt es Spielraum, wo braucht ihr ein gutes Gespräch? Auch beim Wohnen in einem oder zwei Häusern.</p>
+    <p class="note">Rund 15 Minuten pro Person. Die Antworten bleiben nur in diesem Browser gespeichert.</p>
+  </header>
+  <div class="grid2">${personCard(0)}${personCard(1)}</div>
+  <div class="card">
+    <h3>Zwei Geräte statt einem?</h3>
+    <p class="note">Jeder öffnet diese Seite am eigenen Handy oder Rechner und füllt seine Karte aus. Am Ende tippt ihr auf „Code zum Teilen“, schickt den Code dem anderen, und der fügt ihn hier ein.</p>
+    <label for="importCode" class="eyebrow">Code des anderen einfügen</label>
+    <textarea id="importCode" placeholder="BK1:…"></textarea>
+    <div class="row"><button id="importBtn">Code übernehmen</button><span class="note" id="importMsg" role="status"></span></div>
+  </div>
+  <div class="row">
+    <button class="primary" id="toResults" ${both?"":"disabled"}>Gemeinsam auswerten</button>
+    ${both?"":'<span class="note">Die Auswertung öffnet sich, wenn ihr beide fertig seid.</span>'}
+  </div>
+  <div id="codeBox"></div>
+  <details class="card">
+    <summary>Wie ihr das Spiel am besten spielt</summary>
+    <ul class="clean">
+      <li>Nehmt euch für die Auswertung einen ruhigen Abend, ohne Zeitdruck und ohne Alkohol.</li>
+      <li>Beantwortet jede Frage so, wie es wirklich ist, nicht so, wie es der andere gern hätte.</li>
+      <li>Unterschiede sind kein Urteil. Sie zeigen, worüber ihr reden solltet.</li>
+      <li>Ihr müsst nicht alles an einem Abend klären. Ein Thema pro Gespräch reicht.</li>
+    </ul>
+  </details>
+  <div class="row"><button class="ghost small" id="resetAsk">Alles zurücksetzen</button><span id="resetConfirm"></span></div>`;
+
+  app.querySelectorAll("[data-name]").forEach(inp=>inp.addEventListener("input",e=>{S.names[+e.target.dataset.name]=e.target.value;save()}));
+  app.querySelectorAll("[data-start]").forEach(b=>b.onclick=()=>{const i=+b.dataset.start;
+    if(S.done[1-i]&&!S.done[i]&&answeredCount(i)===0){} go("quiz",{p:i,s:0})});
+  app.querySelectorAll("[data-showcode]").forEach(b=>b.onclick=()=>showCode(+b.dataset.showcode,document.getElementById("codeBox")));
+  document.getElementById("toResults").onclick=()=>go("results");
+  document.getElementById("importBtn").onclick=()=>{
+    const msg=document.getElementById("importMsg");
+    try{const d=readCode(document.getElementById("importCode").value);S.answers[d.i]=d.a;S.done[d.i]=true;if(d.n)S.names[d.i]=d.n;save();render();toast(`Antworten von ${d.n||"Person "+(d.i+1)} übernommen`)}
+    catch(e){msg.textContent="Das hat nicht geklappt: "+e.message+" Bitte den ganzen Code kopieren."}
+  };
+  document.getElementById("resetAsk").onclick=()=>{
+    document.getElementById("resetConfirm").innerHTML='<span class="row"><span class="note">Wirklich alle Antworten löschen?</span><button class="small" id="resetYes">Ja, löschen</button><button class="ghost small" id="resetNo">Abbrechen</button></span>';
+    document.getElementById("resetYes").onclick=()=>{const n=S.names;S=fresh();S.names=n;save();render();toast("Zurückgesetzt")};
+    document.getElementById("resetNo").onclick=()=>document.getElementById("resetConfirm").innerHTML="";
+  };
+}
+
+function showCode(i,box){
+  const code=makeCode(i);
+  box.innerHTML=`<div class="card"><h3>Code von ${N(i)}</h3>
+   <p class="note">Diesen Code per Nachricht an den anderen schicken. Er enthält alle Antworten, also nur an die richtige Person.</p>
+   <div class="code" id="codeText">${esc(code)}</div>
+   <div class="row"><button class="primary small" id="copyCode">Code kopieren</button></div></div>`;
+  document.getElementById("copyCode").onclick=()=>copy(code,document.getElementById("codeText"));
+  box.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function optionsHTML(q,val,name){
+  let labels,values,cls="opts";
+  if(q.type==="agree"){labels=AGREE;cls+=" scale"} else if(q.type==="menu"){labels=MENU;cls+=" scale"} else if(q.type==="model"){labels=MODEL;cls+=" scale"}
+  else if(q.type==="bipolar"){labels=q.options;cls+=" scale"} else {labels=q.options}
+  values=labels.map((_,k)=>q.type==="agree"?k+1:k);
+  return `<div class="${cls}" role="radiogroup" aria-label="${esc(q.text)}">`+labels.map((l,k)=>
+    `<label class="opt"><input type="radio" name="${name}" id="${name}-${k}" value="${values[k]}" ${val===values[k]?"checked":""}>${esc(l)}</label>`).join("")+`</div>`;
+}
+
+function renderQuiz(){
+  const p=S.p, sec=SECTIONS[S.s], A=S.answers[p], cls=p?"pb":"pa";
+  const pct=Math.round(S.s/SECTIONS.length*100);
+  app.innerHTML=`
+  <div class="quiz ${cls} stack">
+    <div class="row" style="justify-content:space-between"><span class="eyebrow">${N(p)} · Teil ${S.s+1} von ${SECTIONS.length}</span><button class="ghost small" id="pause">Pause</button></div>
+    <div class="progress"><i style="width:${pct}%"></i></div>
+    <h2>${esc(sec.title)}</h2>
+    <p class="lead">${esc(sec.intro)}</p>
+    <div class="card">${sec.items.map(q=>`<div class="q"><span class="qt" id="lbl-${q.id}">${esc(q.text)}</span>${
+      q.type==="text"?`<textarea id="q-${q.id}" data-text="${q.id}" aria-labelledby="lbl-${q.id}" placeholder="Optional, in eigenen Worten">${esc(A[q.id]||"")}</textarea>`
+      :optionsHTML(q,A[q.id],"q-"+q.id)}</div>`).join("")}</div>
+    <p class="note" id="missing" role="status"></p>
+    <div class="row" style="justify-content:space-between">
+      <button class="ghost" id="back">${S.s?"Zurück":"Zur Übersicht"}</button>
+      <button class="${cls}" id="next">${S.s===SECTIONS.length-1?"Fertig":"Weiter"}</button>
+    </div>
+  </div>`;
+  app.querySelectorAll('input[type=radio]').forEach(r=>r.addEventListener("change",e=>{A[e.target.name.slice(2)]=+e.target.value;save()}));
+  app.querySelectorAll("[data-text]").forEach(t=>t.addEventListener("input",e=>{A[e.target.dataset.text]=e.target.value;save()}));
+  document.getElementById("pause").onclick=()=>go("start");
+  document.getElementById("back").onclick=()=>S.s?go("quiz",{s:S.s-1}):go("start");
+  document.getElementById("next").onclick=()=>{
+    const open=sec.items.filter(q=>q.type!=="text"&&A[q.id]===undefined);
+    if(open.length){document.getElementById("missing").textContent=`Noch ${open.length} ${open.length===1?"Frage":"Fragen"} offen. Wähle bei jeder Frage eine Antwort aus.`;
+      document.getElementById("lbl-"+open[0].id).scrollIntoView({behavior:"smooth",block:"center"});return}
+    if(S.s<SECTIONS.length-1)return go("quiz",{s:S.s+1});
+    S.done[p]=true; S.done[1-p]?go("results"):go("handoff");
+  };
+}
+
+function renderHandoff(){
+  const p=S.p,o=1-p;
+  app.innerHTML=`
+  <div class="card person ${o?"pb":"pa"}">
+    <span class="eyebrow">Geschafft</span>
+    <h2>Danke, ${N(p)}. Jetzt ist ${N(o)} dran.</h2>
+    <p>Deine Antworten sind gespeichert und bleiben verborgen, bis ihr beide fertig seid.</p>
+    <div class="row">
+      <button class="${o?"pb":"pa"}" id="other">${N(o)} beginnt hier</button>
+      <button id="code">${N(o)} nutzt ein eigenes Gerät</button>
+    </div>
+    <div id="codeBox"></div>
+  </div>
+  <button class="ghost small" id="home" style="align-self:flex-start">Zur Übersicht</button>`;
+  document.getElementById("other").onclick=()=>go("quiz",{p:o,s:0});
+  document.getElementById("home").onclick=()=>go("start");
+  document.getElementById("code").onclick=()=>{
+    const box=document.getElementById("codeBox");
+    showCode(p,box);
+    box.insertAdjacentHTML("beforeend",`<p class="note">${N(o)} öffnet denselben Link auf dem eigenen Gerät, füllt die eigene Karte aus und fügt diesen Code dort ein. Oder ${N(o)} schickt dir den eigenen Code, und du fügst ihn in der Übersicht ein.</p>`);
+  };
+}
+
+/* ---------- Auswertung ---------- */
+function classify(q,a,b){
+  if(a===undefined||b===undefined)return null;
+  const d=Math.abs(a-b);
+  if(q.type==="menu"){
+    if((Math.max(a,b)>=3&&Math.min(a,b)===0)||(Math.max(a,b)===4&&Math.min(a,b)<=1))return "bad";
+    return d<=1?"ok":"mid";
+  }
+  return d<=1?"ok":d===2?"mid":"bad";
+}
+const PILL={ok:'<span class="pill ok">Einig</span>',mid:'<span class="pill mid">Spielraum</span>',bad:'<span class="pill bad">Gesprächsbedarf</span>'};
+
+function track(q,a,b){
+  const labels=q.type==="agree"?AGREE:q.type==="menu"?MENU:q.type==="model"?MODEL:q.options;
+  const off=q.type==="agree"?1:0;
+  const cells=labels.map((_,k)=>`<div>${a===k+off?`<span class="mk a" title="${N(0)}">${ini(0)}</span>`:""}${b===k+off?`<span class="mk b" title="${N(1)}">${ini(1)}</span>`:""}</div>`).join("");
+  return `<div class="track" style="--n:${labels.length}">${cells}</div><div class="ends"><span>${esc(labels[0])}</span><span>${esc(labels[labels.length-1])}</span></div>`;
+}
+function cmpRow(q){const a=S.answers[0][q.id],b=S.answers[1][q.id],c=classify(q,a,b);
+  return `<div class="cmp"><div class="head"><span>${esc(q.text)}</span>${c?PILL[c]:""}</div>${track(q,a,b)}</div>`}
+
+function renderResults(){
+  const A=S.answers[0],B=S.answers[1];
+  const scored=ALL.filter(q=>["agree","menu","bipolar","model"].includes(q.type));
+  const cls=scored.map(q=>classify(q,A[q.id],B[q.id]));
+  const cnt={ok:0,mid:0,bad:0}; cls.forEach(c=>c&&cnt[c]++);
+  const menu=SECTIONS[2].items;
+  const mBad=menu.filter(q=>classify(q,A[q.id],B[q.id])==="bad"), mMid=menu.filter(q=>classify(q,A[q.id],B[q.id])==="mid"), mOk=menu.filter(q=>classify(q,A[q.id],B[q.id])==="ok");
+  const bothYes=menu.filter(q=>A[q.id]>=3&&B[q.id]>=3), bothNo=menu.filter(q=>A[q.id]<=1&&B[q.id]<=1);
+
+  const models=["w1","w2","w3","w4","w5"].map(id=>{const a=A[id],b=B[id];return {id,q:BYID[id],a,b,veto:a===0||b===0,score:a+b,low:Math.min(a,b)}})
+    .sort((x,y)=>(x.veto-y.veto)||(y.low-x.low)||(y.score-x.score));
+  const best=models.find(m=>!m.veto);
+
+  const f1=BYID.f1; const fa=A.f1, fb=B.f1;
+  const lesart=[];
+  if(A.g4>=4&&B.g4>=4)lesart.push("Ihr wollt beide eng verbunden bleiben. Die Frage ist bei euch eher <b>wie</b>, nicht <b>ob</b>.");
+  else if(Math.abs(A.g4-B.g4)>=2)lesart.push("Ihr habt einen unterschiedlich starken Wunsch, verbunden zu bleiben. Das ist das wichtigste Gespräch, noch vor allen praktischen Fragen.");
+  if(A.g2>=4&&B.g2>=4)lesart.push("Ihr empfindet beide romantische Liebe füreinander.");
+  else if(Math.abs(A.g2-B.g2)>=2)lesart.push("Eure romantischen Gefühle sind gerade unterschiedlich stark. Das darf ausgesprochen werden, ohne Vorwurf. Es sagt noch nichts darüber, ob ihr eine gute Form füreinander findet.");
+  if(fa===fb&&fa!==5)lesart.push(`Ihr wünscht euch dieselbe Form: <b>${esc(f1.options[fa])}</b>.`);
+  else if(fa!==fb)lesart.push(`Eure Wunschformen unterscheiden sich: ${N(0)} wünscht sich, dass ihr <b>${esc(f1.options[fa])}</b>, ${N(1)}, dass ihr <b>${esc(f1.options[fb])}</b>. Sprecht darüber, was jeder sich davon erhofft.`);
+  if(best)lesart.push(`Beim Wohnen kommt ihr am ehesten zusammen bei: <b>${esc(best.q.text)}</b>.`);
+  else lesart.push("Beim Wohnen hat jedes Modell mindestens ein klares Nein. Hier lohnt es sich, ein eigenes Modell zu entwickeln.");
+  if(mBad.length)lesart.push(`Bei ${mBad.length} ${mBad.length===1?"Baustein trifft":"Bausteinen treffen"} ein starker Wunsch und eine Grenze aufeinander. Das sind eure wichtigsten Gesprächsthemen.`);
+
+  const texts=ALL.filter(q=>q.type==="text");
+  const talk=[...mBad,...scored.filter(q=>q.type!=="menu"&&q.type!=="model"&&classify(q,A[q.id],B[q.id])==="bad")];
+
+  const agreement=[
+    `Unsere Vereinbarung (Entwurf vom ${new Date().toLocaleDateString("de-DE")})`,"",
+    `Form: ${fa===fb?f1.options[fa]:"noch offen ("+S.names[0]+": "+f1.options[fa]+" / "+S.names[1]+": "+f1.options[fb]+")"}`,
+    `Wohnen: ${best?best.q.text:"noch offen"}`,"",
+    "Das wollen wir beide:",...(bothYes.length?bothYes.map(q=>"- "+q.text):["- (noch nichts)"]),"",
+    "Das brauchen wir beide nicht:",...(bothNo.length?bothNo.map(q=>"- "+q.text):["- (nichts)"]),"",
+    "Darüber reden wir noch:",...([...mBad,...mMid].length?[...mBad,...mMid].map(q=>"- "+q.text):["- (nichts)"]),"",
+    "Häuser und Ferienhaus: ______________________________",
+    "Kosten und Arbeit: __________________________________",
+    "Wir schauen uns diese Vereinbarung wieder an am: ____________"
+  ].join("\n");
+
+  app.innerHTML=`
+  <header class="stack">
+    <span class="eyebrow">Auswertung</span>
+    <h1>${N(0)} und ${N(1)}</h1>
+    <div class="legend"><span><span class="mk a">${ini(0)}</span>${N(0)}</span><span><span class="mk b">${ini(1)}</span>${N(1)}</span></div>
+  </header>
+
+  <section class="card">
+    <h2>Auf einen Blick</h2>
+    <div class="tally"><div class="ok"><b>${cnt.ok}</b><span>Einig</span></div><div class="mid"><b>${cnt.mid}</b><span>Spielraum</span></div><div class="bad"><b>${cnt.bad}</b><span>Gesprächsbedarf</span></div></div>
+    <ul class="clean">${lesart.map(l=>`<li>${l}</li>`).join("")}</ul>
+    <p class="warn">Diese Auswertung ist kein Urteil darüber, ob ihr zusammenpasst. Sie zeigt euch, wo ihr gemeinsam steht und worüber ihr reden solltet. Die Entscheidung trefft ihr im Gespräch.</p>
+  </section>
+
+  <section class="card"><h2>Gefühle und Wunschform</h2>
+    <div>${SECTIONS[0].items.filter(q=>q.type==="agree").map(cmpRow).join("")}
+    <div class="cmp"><div class="head"><span>${esc(f1.text)}</span>${fa===fb?PILL.ok:PILL.mid}</div>
+      <div class="grid2"><div class="quote a">${esc(f1.options[fa])}</div><div class="quote b">${esc(f1.options[fb])}</div></div></div>
+    ${cmpRow(BYID.f2)}${cmpRow(BYID.f3)}</div>
+  </section>
+
+  <section class="card"><h2>Beziehungs-Bausteine</h2>
+    <p class="note">Sortiert nach Gesprächsbedarf. Ganz oben stehen die Stellen, an denen ein starker Wunsch auf eine Grenze trifft.</p>
+    <div>${[...mBad,...mMid,...mOk].map(cmpRow).join("")}</div>
+  </section>
+
+  <section class="card"><h2>Wohnmodelle</h2>
+    <p class="note">Sortiert danach, wer am wenigsten Abstriche machen muss. Ein „Kommt nicht in Frage“ von einer Seite schließt ein Modell aus.</p>
+    <div>${models.map(m=>`<div class="bar ${m.veto?"out":""}"><span>${esc(m.q.text)}${m.veto?' <span class="pill bad">ausgeschlossen</span>':m===best?' <span class="pill ok">bester gemeinsamer Nenner</span>':""}</span>
+      <span class="bars"><i style="width:${m.a/4*100}%;background:var(--a)" title="${N(0)}: ${esc(MODEL[m.a])}"></i><i style="width:${m.b/4*100}%;background:var(--b)" title="${N(1)}: ${esc(MODEL[m.b])}"></i></span></div>`).join("")}</div>
+    <h3>Häuser und Ferienhaus</h3>
+    <div>${["e1","e2","e3","e4"].map(id=>cmpRow(BYID[id])).join("")}</div>
+  </section>
+
+  <section class="card"><h2>Sicherheit und Zukunft</h2>
+    <div>${SECTIONS[4].items.filter(q=>q.type==="agree").map(cmpRow).join("")}</div>
+  </section>
+
+  <section class="card"><h2>Eure eigenen Worte</h2>
+    <p class="note">Lest euch diese Antworten gegenseitig laut vor. Der andere hört nur zu und fasst danach zusammen, was er verstanden hat.</p>
+    ${texts.map(q=>`<div class="stack"><h3>${esc(q.text)}</h3><div class="grid2">
+      <div class="quote a ${A[q.id]?"":"empty"}">${A[q.id]?esc(A[q.id]):"(keine Antwort)"}</div>
+      <div class="quote b ${B[q.id]?"":"empty"}">${B[q.id]?esc(B[q.id]):"(keine Antwort)"}</div></div></div>`).join("")}
+  </section>
+
+  <section class="card"><h2>Euer Gesprächsleitfaden</h2>
+    <p>Nehmt euch pro Gespräch ein Thema vor. Einer spricht, der andere hört zu und wiederholt in eigenen Worten, was er verstanden hat. Erst dann wird getauscht.</p>
+    ${talk.length?`<h3>Eure wichtigsten Themen</h3><ul class="clean">${talk.map(q=>`<li><b>${esc(q.text)}</b>: Was bedeutet das für dich? Welches Bedürfnis steckt dahinter?</li>`).join("")}</ul>`:"<p>Es gibt keine harten Gegensätze. Sprecht über die Punkte mit Spielraum.</p>"}
+    <h3>Fragen hinter einem festen Standpunkt</h3>
+    <ul class="clean">
+      <li>Was ist dir daran so wichtig? Gibt es eine Geschichte dazu?</li>
+      <li>Was wäre dein idealer Traum, wenn alles möglich wäre?</li>
+      <li>Wovor hast du Angst, wenn es nicht so kommt?</li>
+      <li>Welcher Teil davon ist für dich unverzichtbar, und wo kannst du flexibel sein?</li>
+      <li>Was bräuchtest du von mir, damit sich ein Kompromiss gut anfühlt?</li>
+    </ul>
+    <h3>Gute Regeln für das Gespräch</h3>
+    <ul class="clean">
+      <li>Von sich selbst sprechen („Ich wünsche mir …“) statt über den anderen („Du immer …“).</li>
+      <li>Wenn es zu hitzig wird, 20 Minuten Pause machen und dann weiterreden.</li>
+      <li>Zuerst verstehen, dann lösen.</li>
+      <li>Was ihr vereinbart, schreibt ihr auf und schaut es euch in drei Monaten wieder an.</li>
+    </ul>
+  </section>
+
+  <section class="card"><h2>Entwurf für eure Vereinbarung</h2>
+    <p class="note">Aus euren Antworten vorbereitet. Kopiert ihn, ergänzt die Lücken gemeinsam und hebt ihn auf.</p>
+    <div class="code" id="agreeText" style="white-space:pre-wrap;max-height:none">${esc(agreement)}</div>
+    <div class="row"><button class="primary small" id="copyAgree">Entwurf kopieren</button></div>
+    <p class="note">Bei gemeinsamem Eigentum, Ferienhaus-Einnahmen, Vollmachten und Testament gehört das Ergebnis am Ende zu einem Notar oder einer Rechtsberatung.</p>
+  </section>
+
+  <details class="card"><summary>Worauf dieses Spiel beruht</summary>
+    <ul class="clean">
+      <li><b>John und Julie Gottman</b>: „Liebeslandkarten“ (wie gut kennt ihr die innere Welt des anderen) und „Träume hinter dem Konflikt“. Viele Unterschiede lassen sich nicht auflösen, aber gut miteinander leben, wenn man den Traum dahinter versteht.</li>
+      <li><b>Das Beziehungs-Buffet (Relationship Smorgasbord)</b>: Statt eines Pakets („Paar“ oder „nicht Paar“) wählt ihr einzelne Bausteine aus. So entstehen auch Formen jenseits der klassischen Treppe (nach Amy Gahran: „Relationship Escalator“).</li>
+      <li><b>Living Apart Together</b>: Paarforschung zeigt, dass gerade Paare ab der Lebensmitte mit eigenen Häusern oft bewusst getrennt wohnen und trotzdem verbindlich zusammen sind, weil Eigenständigkeit, Eigentum und Gewohnheiten so geschützt bleiben.</li>
+      <li><b>Gewaltfreie Kommunikation (Marshall Rosenberg)</b>: hinter jedem Wunsch ein Bedürfnis suchen. Daher die Fragen nach Angst, Wunsch und Grenze.</li>
+      <li><b>Nähe und Autonomie (Esther Perel, Bindungsforschung)</b>: Jeder Mensch braucht beides in einem eigenen Verhältnis. Unterschiede dabei sind normal und verhandelbar.</li>
+    </ul>
+    <p class="note">Wenn die Gespräche immer wieder festfahren, kann eine Paar- oder Mediationsberatung helfen, etwa bei einer Ehe-, Familien- und Lebensberatungsstelle in eurer Nähe. Das ist auch hilfreich, wenn ihr euch freundschaftlich trennen wollt.</p>
+  </details>
+
+  <div class="row"><button id="backStart">Zur Übersicht</button></div>`;
+  document.getElementById("copyAgree").onclick=()=>copy(agreement,document.getElementById("agreeText"));
+  document.getElementById("backStart").onclick=()=>go("start");
+}
+
+render();
+</script>
